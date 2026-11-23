@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 760" role="img" aria-labelledby="title desc">
+<title id="title">AgentSentry: prompt injection enters through untrusted tools, but execution is guarded by provenance and trajectory analysis</title>
+<desc id="desc">A six-stage security pipeline. A legitimate user task and third-party content feed a tool-using GPT-4o-mini agent. An intercepted proposed tool call is checked for scope, risk and critical argument provenance, then evaluated by a gradient-boosted trajectory model. High-confidence violations are blocked; otherwise the calibrated decision may allow, block, quarantine and replan, or escalate. Measured core results shown below: 34 of 34 observed exploits caught, zero of 120 clean unseen-server episodes falsely flagged, and 99.7 percent clean task success with hybrid blocking.</desc>
+<defs>
+  <style><![CDATA[
+    .label{font-family:Arial,sans-serif;font-weight:700;font-size:16px;fill:#bdb8d4;letter-spacing:2.1px}
+    .heading{font-family:Arial,sans-serif;font-weight:650;font-size:28px;fill:#f0f3ff}
+    .body{font-family:Arial,sans-serif;font-weight:450;font-size:18px;fill:#b9c7dd}
+    .small{font-family:Arial,sans-serif;font-weight:500;font-size:14px;fill:#bbcee6}
+    .num{font-family:Arial,sans-serif;font-weight:750;font-size:15px;fill:#d6bfff}
+    .stat{font-family:Georgia,serif;font-weight:450;font-size:43px;fill:#d2bafc}
+    .value{font-family:Arial,sans-serif;font-weight:750;font-size:17px;fill:#edf2ff}
+    .stroke{stroke:#425675;stroke-width:2}
+  ]]></style>
+  <filter id="shade" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="9" stdDeviation="12" flood-color="#080e1a" flood-opacity=".06"/></filter>
+  <marker id="arrow" markerWidth="11" markerHeight="11" refX="8" refY="5.5" orient="auto"><path d="M1 1 L9 5.5 L1 10" fill="none" stroke="#a4bade" stroke-width="1.7" stroke-linejoin="round"/></marker>
+</defs>
+<rect x="0" y="0" width="1440" height="760" fill="#0e1524"/>
+<rect x="34" y="31" rx="9" width="260" height="31" fill="#30294a"/>
+<text x="49" y="52" class="label" font-size="13" fill="#c6a9fb">AGENTSENTRY / CORE STUDY</text>
+<text x="35" y="108" font-family="Georgia,serif" font-size="50" fill="#f1f5ff">From untrusted content to controlled execution</text>
+<text x="37" y="141" class="body">The runtime checks each proposed action at the last safe moment — before any tool side effect occurs.</text>
+<!-- top left, two origins -->
+<rect x="37" y="188" width="248" height="172" rx="13" fill="#1b2b42" stroke="#3b5475" stroke-width="2"/>
+<rect x="53" y="206" width="43" height="26" rx="7" fill="#2d4367"/>
+<text x="67" y="224" class="num">01</text>
+<text x="54" y="264" class="heading" font-size="24">User task</text>
+<text x="54" y="293" class="body">Authorized request,</text>
+<text x="54" y="318" class="body">available tool scopes</text>
+<rect x="37" y="381" width="248" height="172" rx="13" fill="#2d2437" stroke="#6b435a" stroke-width="2"/>
+<rect x="53" y="399" width="43" height="26" rx="7" fill="#4a354e"/>
+<text x="67" y="417" class="num">02</text>
+<text x="54" y="458" class="heading" font-size="24">External content</text>
+<text x="54" y="487" class="body">Email, file, web,</text>
+<text x="54" y="512" class="body">CRM, chat, tool text</text>
+<text x="54" y="537" class="small" fill="#f0a9c2">UNTRUSTED / SOURCE-LABELED</text>
+<!-- connection agent -->
+<path d="M285 272 H316 V325 H351" fill="none" stroke="#8fb7e5" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M285 466 H316 V348 H351" fill="none" stroke="#e494b2" stroke-width="3" marker-end="url(#arrow)"/>
+<!-- agent -->
+<rect x="354" y="252" width="230" height="215" rx="15" fill="#26283e" stroke="#554b82" stroke-width="2" filter="url(#shade)"/>
+<rect x="372" y="272" width="43" height="26" rx="7" fill="#40395e"/>
+<text x="386" y="290" class="num">03</text>
+<text x="372" y="338" class="heading">LLM agent</text>
+<text x="372" y="368" class="body">GPT-4o-mini</text>
+<rect x="373" y="390" width="191" height="57" rx="8" fill="#1c2940" stroke="#536182"/>
+<text x="385" y="413" class="small">Proposes a tool call</text>
+<text x="385" y="432" class="small">+ argument values</text>
+<path d="M584 357 H635" stroke="#97acd4" stroke-width="3" marker-end="url(#arrow)"/>
+<!-- gate container -->
+<rect x="639" y="185" width="447" height="368" rx="15" fill="#16243a" stroke="#426083" stroke-width="2.5" filter="url(#shade)"/>
+<rect x="660" y="205" rx="6" width="238" height="30" fill="#314664"/>
+<text x="673" y="226" class="label" fill="#bfd0ff">PRE-EXECUTION GATE</text>
+<rect x="659" y="263" width="405" height="107" rx="10" fill="#193e3d" stroke="#3f837c" stroke-width="1.6"/>
+<rect x="673" y="277" width="40" height="25" rx="7" fill="#2e635d"/>
+<text x="685" y="295" class="num">04</text>
+<text x="725" y="297" class="heading" font-size="23">Provenance + policy</text>
+<text x="676" y="323" class="body">Critical values: trusted / untrusted / unattested</text>
+<text x="676" y="349" class="small">High-risk policy violation → hard block floor</text>
+<rect x="659" y="385" width="405" height="111" rx="10" fill="#242e48" stroke="#48577d" stroke-width="1.6"/>
+<rect x="673" y="399" width="40" height="25" rx="7" fill="#384b6c"/>
+<text x="685" y="418" class="num">05</text>
+<text x="725" y="420" class="heading" font-size="23">Trajectory GBM</text>
+<text x="675" y="446" class="body">31 features + risk-transition surprisal</text>
+<text x="675" y="472" class="small">Handles softer, context-dependent signals</text>
+<text x="671" y="533" class="small">Calibrated on separate clean episodes · α = 0.05</text>
+<path d="M1086 358 H1127" stroke="#97acd4" stroke-width="3" marker-end="url(#arrow)"/>
+<!-- decisions -->
+<rect x="1132" y="242" width="269" height="224" rx="15" fill="#1b2b42" stroke="#3f5e7b" stroke-width="2"/>
+<rect x="1150" y="260" width="42" height="26" rx="7" fill="#2e4365"/>
+<text x="1163" y="278" class="num">06</text>
+<text x="1150" y="319" class="heading">Decision</text>
+<rect x="1150" y="343" width="226" height="36" rx="6" fill="#275043"/>
+<text x="1164" y="366" class="value" fill="#b1f1d4">ALLOW / authorize</text>
+<rect x="1150" y="387" width="226" height="36" rx="6" fill="#5a3549"/>
+<text x="1164" y="410" class="value" fill="#ffd0dd">BLOCK / before harm</text>
+<text x="1150" y="449" class="small">Replan or escalate when flagged</text>
+<!-- result footer -->
+<line x1="37" y1="597" x2="1402" y2="597" stroke="#425675" stroke-width="2"/>
+<text x="37" y="632" class="label" fill="#7d6caf">MEASURED CORE RESULT / FINAL-V1</text>
+<text x="37" y="698" class="stat">34/34</text>
+<text x="186" y="680" class="body">observed exploits</text><text x="186" y="705" class="body">caught before harm</text>
+<line x1="476" y1="635" x2="476" y2="722" stroke="#435771" stroke-width="2"/>
+<text x="512" y="698" class="stat">0/120</text>
+<text x="661" y="680" class="body">clean unseen-server</text><text x="661" y="705" class="body">episodes falsely flagged</text>
+<line x1="990" y1="635" x2="990" y2="722" stroke="#435771" stroke-width="2"/>
+<text x="1020" y="698" class="stat">99.7%</text>
+<text x="1217" y="680" class="body">clean-task</text><text x="1217" y="705" class="body">success</text>
+<text x="37" y="743" class="small">CONTROLLED EVALUATION · GPT-4o-mini · one seed · synthetic environment · not production deployment</text>
+</svg>
