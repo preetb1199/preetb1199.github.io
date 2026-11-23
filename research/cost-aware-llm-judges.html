@@ -1,6 +1,73 @@
 <!DOCTYPE html>
 
-<html data-theme="light" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><meta content="light dark" name="color-scheme"/><meta content="#fbfcfe" name="theme-color"/><meta content="Numerical research on dynamically selecting LLM verifiers to achieve reliable outcomes with fewer model calls, lower cost, or lower latency." name="description"/><title>Cost-Aware Routing of LLM Judges | Preet Baxi</title><link href="../assets/favicon.svg" rel="icon" type="image/svg+xml"/><link href="../assets/styles.css" rel="stylesheet"/></head><body><a class="skip" href="#main">Skip to content</a>
+<html data-theme="light" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><meta content="light dark" name="color-scheme"/><meta content="#fbfcfe" name="theme-color"/><meta content="Numerical research on dynamically selecting LLM verifiers to achieve reliable outcomes with fewer model calls, lower cost, or lower latency." name="description"/><title>Cost-Aware Routing of LLM Judges | Preet Baxi</title><link href="../assets/favicon.svg" rel="icon" type="image/svg+xml"/><link href="../assets/styles.css" rel="stylesheet"/>
+<link rel="canonical" href="https://www.preet-baxi.com/research/cost-aware-llm-judges.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Preet Baxi | Research">
+<meta property="og:title" content="Cost-Aware Routing of LLM Judges | Preet Baxi">
+<meta property="og:description" content="Numerical research on dynamically selecting LLM verifiers to achieve reliable outcomes with fewer model calls, lower cost, or lower latency.">
+<meta property="og:url" content="https://www.preet-baxi.com/research/cost-aware-llm-judges.html">
+<meta property="og:image" content="https://www.preet-baxi.com/assets/diagrams/CostAware.png">
+<meta property="og:image:alt" content="Research diagram for Cost-Aware Routing of LLM Judges">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cost-Aware Routing of LLM Judges | Preet Baxi">
+<meta name="twitter:description" content="Numerical research on dynamically selecting LLM verifiers to achieve reliable outcomes with fewer model calls, lower cost, or lower latency.">
+<meta name="twitter:image" content="https://www.preet-baxi.com/assets/diagrams/CostAware.png">
+<meta name="twitter:image:alt" content="Research diagram for Cost-Aware Routing of LLM Judges">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CreativeWork",
+      "@id": "https://www.preet-baxi.com/research/cost-aware-llm-judges.html#project",
+      "name": "Cost-Aware Routing of LLM Judges",
+      "url": "https://www.preet-baxi.com/research/cost-aware-llm-judges.html",
+      "description": "Numerical research on dynamically selecting LLM verifiers to achieve reliable outcomes with fewer model calls, lower cost, or lower latency.",
+      "inLanguage": "en",
+      "creator": {
+        "@type": "Person",
+        "@id": "https://www.preet-baxi.com/#person",
+        "name": "Preet Baxi",
+        "url": "https://www.preet-baxi.com/"
+      },
+      "mainEntityOfPage": "https://www.preet-baxi.com/research/cost-aware-llm-judges.html",
+      "isPartOf": {
+        "@type": "CollectionPage",
+        "@id": "https://www.preet-baxi.com/research/#webpage",
+        "url": "https://www.preet-baxi.com/research/"
+      },
+      "creativeWorkStatus": "Collaborative research · under review",
+      "image": "https://www.preet-baxi.com/assets/diagrams/CostAware.png"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.preet-baxi.com/research/cost-aware-llm-judges.html#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.preet-baxi.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Research",
+          "item": "https://www.preet-baxi.com/research/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Cost-Aware Routing of LLM Judges",
+          "item": "https://www.preet-baxi.com/research/cost-aware-llm-judges.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head><body><a class="skip" href="#main">Skip to content</a>
 <header class="site-header"><div class="container nav-inner"><a aria-label="Preet Baxi home" class="brand" href="../index.html">Preet Baxi</a><nav aria-label="Main navigation" class="nav-links" data-nav=""><a aria-current="page" href="../research/index.html">Research</a><a href="../publications.html">Publications</a><a href="../index.html#about">About</a><a href="../index.html#contact">Contact</a></nav><div class="nav-actions"><button aria-label="Switch to dark mode" class="theme-toggle" data-theme-toggle="" title="Switch to dark mode" type="button">☾</button><a class="cv-button" href="../assets/Preet_Baxi_CV.pdf" rel="noopener noreferrer" target="_blank">View CV ↗</a><button aria-expanded="false" aria-label="Open menu" class="menu-toggle" data-menu-toggle="" type="button">☰</button></div></div></header>
 <main id="main"><section class="container tone-violet"><nav aria-label="Breadcrumb" class="breadcrumbs"><a href="../index.html">Home</a><span aria-hidden="true">/</span><a href="../research/index.html">Research</a><span aria-hidden="true">/</span><span>Cost-Aware Routing of LLM Judges</span></nav><div class="detail-hero"><div><div class="eyebrow">Collaborative research · under review</div><h1>Cost-Aware Routing of LLM Judges</h1><div class="subtitle">Sequential model selection under accuracy, cost, and latency constraints</div><p>Numerical research on dynamically selecting LLM verifiers to achieve reliable outcomes with fewer model calls, lower cost, or lower latency.</p><div class="tags"><span class="tag">LLM routing</span><span class="tag">Sequential decisions</span><span class="tag">Latency</span><span class="tag">Evaluation</span></div></div><aside class="detail-side-stat"><div class="smallcaps">PRIMARY RESULT / CURRENT STATUS</div><strong>Two-LLM policies near an 18-model benchmark</strong><p>See the full context, assumptions, and study limitations below.</p></aside></div><section aria-label="Interactive research map for Cost-Aware Routing of LLM Judges" class="research-explorer tone-violet" data-explorer=""><div class="explorer-heading"><div><div class="eyebrow">AN INTERACTIVE WAY INTO THE RESEARCH</div><h2>Explore this study.</h2></div><p>Choose a stage to see the research question, methodology, and evidence. Each stage draws from the project notes below.</p></div><div class="explorer-layout"><div aria-label="Research stages for Cost-Aware Routing of LLM Judges" class="explorer-tabs" role="tablist"><button aria-controls="explorer-panel-0" aria-selected="true" data-explorer-tab="" id="explorer-tab-0" role="tab" tabindex="0" type="button"><span class="explorer-no">01</span><span><strong>Question</strong><small>Framing the problem</small></span><span aria-hidden="true" class="explorer-arrow">↗</span></button><button aria-controls="explorer-panel-1" aria-selected="false" data-explorer-tab="" id="explorer-tab-1" role="tab" tabindex="-1" type="button"><span class="explorer-no">02</span><span><strong>Method</strong><small>Designing the study</small></span><span aria-hidden="true" class="explorer-arrow">↗</span></button><button aria-controls="explorer-panel-2" aria-selected="false" data-explorer-tab="" id="explorer-tab-2" role="tab" tabindex="-1" type="button"><span class="explorer-no">03</span><span><strong>Evidence</strong><small>Measured outcomes &amp; status</small></span><span aria-hidden="true" class="explorer-arrow">↗</span></button></div><div class="explorer-output"><div aria-labelledby="explorer-tab-0" class="explorer-panel" data-explorer-panel="" id="explorer-panel-0" role="tabpanel" tabindex="0"><div class="explorer-phase">01 / QUESTION</div><h3>What are we trying to understand?</h3><p>How closely can a small adaptive set of LLM judges approach a much larger optimal routing policy?</p></div><div aria-labelledby="explorer-tab-1" class="explorer-panel" data-explorer-panel="" hidden="" id="explorer-panel-1" role="tabpanel" tabindex="0"><div class="explorer-phase">02 / METHOD</div><h3>How was it investigated?</h3><ul><li>Profiled 18 binary LLM verifiers on 1,084 labeled mathematical reasoning tasks.</li><li>Modeled model-specific accuracy, cost, and stochastic latency.</li><li>Implemented dynamic-programming comparisons with roughly 16 million states.</li><li>Ran large-scale Monte Carlo experiments across error tolerances and latency penalties.</li></ul></div><div aria-labelledby="explorer-tab-2" class="explorer-panel" data-explorer-panel="" hidden="" id="explorer-panel-2" role="tabpanel" tabindex="0"><div class="explorer-phase">03 / EVIDENCE</div><h3>What do the results support?</h3><ul><li>Evaluated around 82 million Monte Carlo trajectories over 170 experimental settings.</li><li>Adaptive two-LLM policies approached the 18-model Bellman benchmark within a few percent in studied configurations.</li><li>Comparisons are numerical and specific to the studied verifiers, model assumptions, and penalty settings.</li></ul></div><span class="explorer-hint">Click another stage to explore • Read the full study below ↓</span></div></div></section><figure class="detail-figure"><a href="../assets/diagrams/CostAware.png" rel="noopener noreferrer" target="_blank"><img alt="Full research diagram for Cost-Aware Routing of LLM Judges" loading="lazy" src="../assets/diagrams/CostAware.png"/></a><figcaption>Provided research infographic — <a href="../assets/diagrams/CostAware.png" rel="noopener noreferrer" target="_blank">open full resolution ↗</a>. Verify any diagram-specific chart values before public publication.</figcaption></figure><div class="research-detail-columns"><article><h2>Research question</h2><p>How closely can a small adaptive set of LLM judges approach a much larger optimal routing policy?</p><h2>Approach</h2><ul><li>Profiled 18 binary LLM verifiers on 1,084 labeled mathematical reasoning tasks.</li><li>Modeled model-specific accuracy, cost, and stochastic latency.</li><li>Implemented dynamic-programming comparisons with roughly 16 million states.</li><li>Ran large-scale Monte Carlo experiments across error tolerances and latency penalties.</li></ul><h2>Findings &amp; status</h2><ul><li>Evaluated around 82 million Monte Carlo trajectories over 170 experimental settings.</li><li>Adaptive two-LLM policies approached the 18-model Bellman benchmark within a few percent in studied configurations.</li></ul><p class="disclaimer">Comparisons are numerical and specific to the studied verifiers, model assumptions, and penalty settings.</p></article><aside class="research-fact-panel"><div class="smallcaps">ABOUT THE PROJECT</div><h3>Cost-Aware Routing of LLM Judges</h3><p>Collaborative research · under review</p><hr/><div class="smallcaps" style="margin-bottom:10px">FOCUS AREAS</div><div class="tags"><span class="tag">LLM routing</span><span class="tag">Sequential decisions</span><span class="tag">Latency</span><span class="tag">Evaluation</span></div><hr/><div class="smallcaps" style="margin-bottom:10px">LINKS</div><p>Project manuscript or repository link will be added when publicly available.</p><p><a class="subtle-link" href="index.html">← All research projects</a></p></aside></div></section><section class="research-related"><div class="container"><h2>Explore related work</h2><div class="related-grid"><a class="related-item tone-violet" href="agentsentry.html"><div class="smallcaps">Independent research</div><h3>AgentSentry</h3><p>AI agent red teaming, MCP security &amp; runtime safeguards</p></a><a class="related-item tone-rose" href="prompt-injection-screening.html"><div class="smallcaps">Peer-reviewed</div><h3>Prompt Injection in LLM Résumé Screening</h3><p>Manipulating automated hiring decisions through untrusted résumé content</p></a><a class="related-item tone-blue" href="metaaudit.html"><div class="smallcaps">Independent research</div><h3>MetaAudit</h3><p>Human-grounded, statistically valid LLM-as-a-judge evaluation</p></a></div></div></section></main>
 <footer class="container footer"><span>© 2026 Preet Baxi · Research on the reliability and security of intelligent systems</span><div class="footer-links"><a href="mailto:preet.baxi.8@gmail.com">Email</a><a href="https://www.linkedin.com/in/preet-baxi/" rel="noopener noreferrer" target="_blank">LinkedIn</a><a href="https://github.com/preetb1199" rel="noopener noreferrer" target="_blank">GitHub</a><a href="https://scholar.google.com/citations?user=dpuZ0_IAAAAJ" rel="noopener noreferrer" target="_blank">Scholar</a></div></footer><script defer="" src="../assets/site.js"></script></body></html>
