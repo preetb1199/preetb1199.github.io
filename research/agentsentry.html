@@ -5,41 +5,83 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#fbfcfe">
-  <title>AgentSentry | Runtime Security for Tool-Using AI Agents — Preet Baxi</title>
-  <meta name="description" content="Explore AgentSentry, Preet Baxi's research on prompt-injection attacks, provenance-based runtime safeguards, agent trajectories, and security-versus-utility evaluation. Interactive architecture, trace simulator and verified experimental results.">
+  <title>AgentSentry: Runtime Security for Tool-Using AI Agents | Preet Baxi</title>
+  <meta name="description" content="AgentSentry studies indirect prompt injection, provenance-based pre-execution authorization, and trajectory monitoring for tool-using AI agents in MCP sandboxes.">
   <meta name="author" content="Preet Baxi">
   <link rel="canonical" href="https://www.preet-baxi.com/research/agentsentry.html">
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../assets/styles.css?v=38d3f8e">
+  <link rel="stylesheet" href="../assets/styles.css?v=seo2026">
   <link rel="stylesheet" href="../assets/agentsentry.css">
   <meta property="og:type" content="article">
   <meta name="robots" content="index,follow,max-image-preview:large">
   <meta property="og:site_name" content="Preet Baxi | Research">
-  <meta property="og:title" content="AgentSentry — Runtime Security for AI Agents">
-  <meta property="og:description" content="An interactive deep dive into prompt-injection attacks, provenance tracking, and the measured cost of false alarms in AI agent security.">
+  <meta property="og:title" content="AgentSentry: Runtime Security for Tool-Using AI Agents | Preet Baxi">
+  <meta property="og:description" content="Interactive research case study on indirect prompt injection, argument provenance tracking, trajectory modeling, and clean-task utility in AI agent security.">
   <meta property="og:url" content="https://www.preet-baxi.com/research/agentsentry.html">
   <meta property="og:image" content="https://www.preet-baxi.com/assets/diagrams/AgentSentry.png">
-  <meta property="og:image:alt" content="AgentSentry agent security architecture research diagram">
+  <meta property="og:image:width" content="1672">
+  <meta property="og:image:height" content="941">
+  <meta property="og:image:alt" content="AgentSentry runtime security and provenance-tracking architecture diagram for tool-using AI agents">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AgentSentry: Runtime Security for Tool-Using AI Agents | Preet Baxi">
+  <meta name="twitter:description" content="Interactive research case study on indirect prompt injection, argument provenance tracking, trajectory modeling, and clean-task utility in AI agent security.">
+  <meta name="twitter:image" content="https://www.preet-baxi.com/assets/diagrams/AgentSentry.png">
+  <meta name="twitter:image:alt" content="AgentSentry runtime security and provenance-tracking architecture diagram for tool-using AI agents">
   <script type="application/ld+json">{
-   "@context":"https://schema.org","@type":"CreativeWork",
-   "name":"AgentSentry: Runtime Security for Tool-Using AI Agents",
-   "description":"Independent research portfolio project evaluating indirect prompt injection, provenance-informed runtime monitoring, agent trajectories, and end-to-end protection trade-offs in a synthetic MCP-style tool environment.",
-   "author":{"@type":"Person","name":"Preet Baxi","url":"https://www.preet-baxi.com/"},
-   "url":"https://www.preet-baxi.com/research/agentsentry.html",
-   "about":["AI agent security","Prompt injection","Provenance tracking","Tool-use authorization","LLM evaluation"],
-   "isAccessibleForFree":true,"inLanguage":"en"
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "@id": "https://www.preet-baxi.com/research/agentsentry.html#article",
+        "headline": "AgentSentry: Runtime Security for Tool-Using AI Agents",
+        "name": "AgentSentry: Runtime Security for Tool-Using AI Agents",
+        "description": "Independent research portfolio project evaluating indirect prompt injection, provenance-informed runtime monitoring, agent trajectories, and end-to-end protection trade-offs in a synthetic MCP-style tool environment.",
+        "author": {"@id": "https://www.preet-baxi.com/#person"},
+        "url": "https://www.preet-baxi.com/research/agentsentry.html",
+        "mainEntityOfPage": "https://www.preet-baxi.com/research/agentsentry.html",
+        "isPartOf": {"@id": "https://www.preet-baxi.com/research/#webpage"},
+        "image": {"@id": "https://www.preet-baxi.com/research/agentsentry.html#image"},
+        "dateCreated": "2026",
+        "keywords": ["AI agent security", "Agentic AI security", "Runtime security for AI agents", "Indirect prompt injection", "MCP security", "Agent provenance tracking", "Tool-calling security", "AI red teaming"],
+        "isAccessibleForFree": true,
+        "inLanguage": "en"
+      },
+      {
+        "@type": "Person",
+        "@id": "https://www.preet-baxi.com/#person",
+        "name": "Preet Baxi",
+        "url": "https://www.preet-baxi.com/",
+        "affiliation": {"@type": "CollegeOrUniversity", "name": "University of Michigan", "url": "https://umich.edu/"}
+      },
+      {
+        "@type": "ImageObject",
+        "@id": "https://www.preet-baxi.com/research/agentsentry.html#image",
+        "url": "https://www.preet-baxi.com/assets/diagrams/AgentSentry.png",
+        "contentUrl": "https://www.preet-baxi.com/assets/diagrams/AgentSentry.png",
+        "width": 1672,
+        "height": 941,
+        "caption": "AgentSentry pre-execution runtime security architecture combining provenance policy and trajectory modeling"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://www.preet-baxi.com/research/agentsentry.html#breadcrumb",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.preet-baxi.com/"},
+          {"@type": "ListItem", "position": 2, "name": "Research", "item": "https://www.preet-baxi.com/research/"},
+          {"@type": "ListItem", "position": 3, "name": "AgentSentry", "item": "https://www.preet-baxi.com/research/agentsentry.html"}
+        ]
+      }
+    ]
   }</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.preet-baxi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://www.preet-baxi.com/research/"},{"@type":"ListItem","position":3,"name":"AgentSentry","item":"https://www.preet-baxi.com/research/agentsentry.html"}]}</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <div class="ae-scroll-progress" aria-hidden="true"><span data-ae-progress></span></div>
-<header class="site-header"><div class="container nav-inner"><a aria-label="Preet Baxi home" class="brand" href="../index.html">Preet Baxi</a><nav aria-label="Main navigation" class="nav-links" data-nav><a aria-current="page" href="../research/index.html">Research</a><a href="../publications.html">Publications</a><a href="../index.html#about">About</a><a href="../index.html#contact">Contact</a></nav><div class="nav-actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode" title="Switch to dark mode" type="button">☾</button><a class="cv-button" href="../assets/Preet_Baxi_CV.pdf" target="_blank" rel="noopener noreferrer">View CV ↗</a><button class="menu-toggle" data-menu-toggle aria-expanded="false" aria-label="Open menu" type="button">☰</button></div></div></header>
+<header class="site-header"><div class="container nav-inner"><a aria-label="Preet Baxi home" class="brand" href="/">Preet Baxi</a><nav aria-label="Main navigation" class="nav-links" data-nav><a aria-current="page" href="/research/">Research</a><a href="/publications.html">Publications</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav><div class="nav-actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode" title="Switch to dark mode" type="button">☾</button><a class="cv-button" href="../assets/Preet_Baxi_CV.pdf" target="_blank" rel="noopener noreferrer">View CV ↗</a><button class="menu-toggle" data-menu-toggle aria-expanded="false" aria-label="Open menu" type="button">☰</button></div></div></header>
 
 <main id="main" class="research-page ae-page" data-research-project="agentsentry">
   <div class="container">
-   <nav class="breadcrumbs ae-crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span aria-hidden="true">/</span><a href="index.html">Research</a><span aria-hidden="true">/</span><span aria-current="page">AgentSentry</span></nav>
+   <nav class="breadcrumbs ae-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/research/">Research</a><span aria-hidden="true">/</span><span aria-current="page">AgentSentry</span></nav>
    <section class="ae-hero" aria-labelledby="ae-title">
       <div class="ae-hero-copy">
         <div class="ae-kicker"><span class="ae-dot"></span> INDEPENDENT RESEARCH <span class="ae-kicker-rule"></span> AI SAFETY / AGENT SECURITY</div>
@@ -106,10 +148,10 @@
 
     <details class="ae-original-diagram">
       <summary><span><strong>Open the original, detailed AgentSentry diagram</strong><small>Existing full-resolution illustration already in your GitHub repository</small></span><span aria-hidden="true">＋</span></summary>
-      <figure><img src="../assets/diagrams/AgentSentry.png" alt="Original detailed AgentSentry research illustration showing its broader tool and security evaluation system" loading="lazy"><figcaption>Existing repo asset. Zoom or <a href="../assets/diagrams/AgentSentry.png" target="_blank" rel="noopener noreferrer">open the original image ↗</a>.</figcaption></figure>
+      <figure><picture><source srcset="../assets/diagrams/AgentSentry.webp" type="image/webp"><img src="../assets/diagrams/AgentSentry.png" alt="Original detailed AgentSentry research illustration showing its broader tool and security evaluation system" width="1672" height="941" loading="lazy" decoding="async"></picture><figcaption>Existing repo asset. Zoom or <a href="../assets/diagrams/AgentSentry.png" target="_blank" rel="noopener noreferrer">open the original image ↗</a>.</figcaption></figure>
     </details>
     <div class="ae-system-figure">
-     <div class="ae-figure-intro"><div><div class="ae-eyebrow">SYSTEM MAP / BIG PICTURE</div><h3>Six linked stages, one last safe checkpoint.</h3></div><button type="button" class="ae-figure-expand" data-ae-open-figure aria-label="Enlarge architecture diagram">Enlarge diagram <span aria-hidden="true">↗</span></button></div>
+     <div class="ae-figure-intro"><div><div class="ae-eyebrow">SYSTEM MAP / BIG PICTURE</div><h3>Six linked stages, one last safe checkpoint.</h3></div><button type="button" class="ae-figure-expand" data-ae-open-figure aria-label="Enlarge diagram of AgentSentry architecture">Enlarge diagram <span aria-hidden="true">↗</span></button></div>
      <figure class="ae-full-figure"><img class="ae-diagram-light" src="../assets/diagrams/AgentSentry_Research_Overview.svg" alt="AgentSentry system diagram showing authorized user request, untrusted content, tool-using agent, provenance guard, gradient-boosted trajectory model, and the pre-execution decision" width="1440" height="760" loading="lazy"><img class="ae-diagram-dark" src="../assets/diagrams/AgentSentry_Research_Overview_Dark.svg" alt="Dark-mode AgentSentry system architecture: user request and external content, model, provenance guard, trajectory model, and pre-execution decision" width="1440" height="760" loading="lazy"><figcaption>Newly designed research overview based on the verified core-study architecture. On mobile, swipe horizontally to explore the diagram. <a href="../assets/diagrams/AgentSentry.png" target="_blank" rel="noopener noreferrer">View the original detailed research diagram ↗</a></figcaption></figure>
     </div>
 
@@ -207,10 +249,10 @@
     <div class="ae-bottom-line"><div class="ae-eyebrow">THE RESEARCH TAKEAWAY</div><p>For agent security, <strong>high attack recall is not enough</strong>. Strong safeguards must check authorization at the tool boundary, preserve legitimate workflows, and survive shifts in tools, tasks and attacker behavior. AgentSentry is a measured step toward understanding that trade-off—and the harder tests show exactly where it still breaks.</p></div>
   </div></section>
 
-  <section class="ae-section ae-end" id="resources" aria-labelledby="resources-heading"><div class="container"><div class="ae-end-panel"><div><div class="ae-eyebrow">KEEP EXPLORING</div><h2 id="resources-heading">Research is a process, <em>not a single metric.</em></h2><p>This page summarizes the source-verified AgentSentry textbooks and the original core study. The full chapter-by-chapter evidence includes threat modeling, provenance code, experiments, statistical tests, error analysis, and separate v3 critiques.</p><div class="ae-source"><strong>Primary research sources for this page</strong><span>AgentSentry: The Super Final Textbook (25 Oct 2026), chapters 7–35; Integrated Illustrated Textbook, companion figures and study graphics; earlier From Zero and Complete textbooks used as context. PDF sources were supplied for building this page and are not silently published as downloads.</span></div></div><div class="ae-end-links"><a class="ae-button ae-button-primary" href="index.html">All research projects ↗</a><a class="ae-button ae-button-quiet" href="metaaudit.html">Next: MetaAudit ↗</a><a class="ae-button ae-button-quiet" href="../index.html#contact">Get in touch ↗</a></div></div></div></section>
+  <section class="ae-section ae-end" id="resources" aria-labelledby="resources-heading"><div class="container"><div class="ae-end-panel"><div><div class="ae-eyebrow">KEEP EXPLORING</div><h2 id="resources-heading">Research is a process, <em>not a single metric.</em></h2><p>This page summarizes the source-verified AgentSentry textbooks and the original core study. The full chapter-by-chapter evidence includes threat modeling, provenance code, experiments, statistical tests, error analysis, and separate v3 critiques.</p><div class="ae-source"><strong>Primary research sources for this page</strong><span>AgentSentry: The Super Final Textbook (25 Oct 2026), chapters 7–35; Integrated Illustrated Textbook, companion figures and study graphics; earlier From Zero and Complete textbooks used as context. PDF sources were supplied for building this page and are not silently published as downloads.</span></div></div><div class="ae-end-links"><a class="ae-button ae-button-primary" href="/research/">All research projects ↗</a><a class="ae-button ae-button-quiet" href="/research/prompt-injection-screening.html">ACL 2026: Prompt Injection ↗</a><a class="ae-button ae-button-quiet" href="/research/metaaudit.html">Next: MetaAudit ↗</a><a class="ae-button ae-button-quiet" href="/research/cora.html">Related: CORA ↗</a><a class="ae-button ae-button-quiet" href="/#contact">Get in touch ↗</a></div></div></div></section>
 </main>
 
-<div class="ae-lightbox" data-ae-lightbox hidden role="dialog" aria-modal="true" aria-label="Enlarged AgentSentry architecture diagram"><div class="ae-lightbox-bar"><strong>AgentSentry / Research architecture</strong><button type="button" data-ae-close-figure aria-label="Close enlarged diagram">Close ✕</button></div><div class="ae-lightbox-image"><img class="ae-diagram-light" src="../assets/diagrams/AgentSentry_Research_Overview.svg" alt="Enlarged AgentSentry research overview flowchart"><img class="ae-diagram-dark" src="../assets/diagrams/AgentSentry_Research_Overview_Dark.svg" alt="Enlarged dark-theme AgentSentry research overview flowchart"></div></div>
+<div class="ae-lightbox" data-ae-lightbox hidden role="dialog" aria-modal="true" aria-label="Enlarged AgentSentry architecture diagram"><div class="ae-lightbox-bar"><strong>AgentSentry / Research architecture</strong><button type="button" data-ae-close-figure aria-label="Close enlarged diagram">Close ✕</button></div><div class="ae-lightbox-image"><img class="ae-diagram-light" src="../assets/diagrams/AgentSentry_Research_Overview.svg" width="1440" height="760" decoding="async" alt="Enlarged AgentSentry research overview flowchart"><img class="ae-diagram-dark" src="../assets/diagrams/AgentSentry_Research_Overview_Dark.svg" width="1440" height="760" decoding="async" alt="Enlarged dark-theme AgentSentry research overview flowchart"></div></div>
 <button type="button" class="ae-back-top" data-ae-top aria-label="Back to top">↑</button>
 <footer class="container footer"><span>© 2026 Preet Baxi · Research on the reliability and security of intelligent systems</span><div class="footer-links"><a class="social-link social-email" href="mailto:preet.baxi.8@gmail.com">Email</a><a class="social-link social-linkedin" href="https://www.linkedin.com/in/preet-baxi/" target="_blank" rel="noopener noreferrer">LinkedIn</a><a class="social-link social-github" href="https://github.com/preetb1199" target="_blank" rel="noopener noreferrer">GitHub</a><a class="social-link social-scholar" href="https://scholar.google.com/citations?user=dpuZ0_IAAAAJ" target="_blank" rel="noopener noreferrer">Scholar</a></div></footer>
 <script defer src="../assets/site.js"></script>

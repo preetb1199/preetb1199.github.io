@@ -614,3 +614,13 @@
  background:linear-gradient(90deg,var(--rose) 0 28%,var(--teal) 28% 56%,var(--gold) 56% 78%,var(--lav) 78%);
 }
 @media(max-width:620px){.pub-row{padding-left:14px}.pub-row::before{top:17px;bottom:17px;width:3px}.pub-row .venue{font-size:10px}}
+/* Additive bibliographic citation & BibTeX helpers */
+.pub-links{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:9px;align-items:center}
+.pub-links a{font-size:12px;font-weight:750;text-align:left}
+.pub-links a:hover{text-decoration:underline;text-underline-offset:3px}
+.pub-abstract{margin-top:9px!important;font-size:12.5px!important;line-height:1.7;color:var(--ink2);max-width:780px}
+.pub-bib{margin-top:10px}
+.pub-bib summary{cursor:pointer;font-size:11.5px;font-weight:750;color:var(--pub-text,var(--blue));list-style:none;display:inline-flex;align-items:center;gap:6px}
+.pub-bib summary::-webkit-details-marker{display:none}
+.pub-bib pre{margin:8px 0 0;padding:12px 14px;background:var(--panel2);border:1px solid var(--line);border-radius:7px;font:11.5px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--ink2);overflow-x:auto;white-space:pre}
+

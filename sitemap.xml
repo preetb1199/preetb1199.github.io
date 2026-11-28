@@ -1,2 +1,132 @@
-<?xml version='1.0' encoding='utf-8'?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://www.preet-baxi.com/</loc></url><url><loc>https://www.preet-baxi.com/publications.html</loc></url><url><loc>https://www.preet-baxi.com/research/</loc></url><url><loc>https://www.preet-baxi.com/research/agentsentry.html</loc></url><url><loc>https://www.preet-baxi.com/research/cora.html</loc></url><url><loc>https://www.preet-baxi.com/research/cost-aware-llm-judges.html</loc></url><url><loc>https://www.preet-baxi.com/research/gaming-the-gatekeeper.html</loc></url><url><loc>https://www.preet-baxi.com/research/ligo-monitoring.html</loc></url><url><loc>https://www.preet-baxi.com/research/metaaudit.html</loc></url><url><loc>https://www.preet-baxi.com/research/opsagent-rl.html</loc></url><url><loc>https://www.preet-baxi.com/research/prompt-injection-screening.html</loc></url><url><loc>https://www.preet-baxi.com/research/rai-gate.html</loc></url></urlset>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://www.preet-baxi.com/</loc>
+    <lastmod>2026-11-27</lastmod>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/portrait-high-resolution.png</image:loc>
+      <image:title>Portrait of Preet Baxi, University of Michigan Ph.D. researcher in AI safety and LIGO physics</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.preet-baxi.com/publications.html</loc>
+    <lastmod>2026-11-27</lastmod>
+  </url>
+  <url>
+    <loc>https://www.preet-baxi.com/research/</loc>
+    <lastmod>2026-11-27</lastmod>
+  </url>
+  <url>
+    <loc>https://www.preet-baxi.com/research/agentsentry.html</loc>
+    <lastmod>2026-11-27</lastmod>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/AgentSentry.png</image:loc>
+      <image:title>AgentSentry runtime security architecture for tool-using AI agents</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/AgentSentry_Research_Overview.svg</image:loc>
+      <image:title>AgentSentry six-stage pre-execution provenance and trajectory pipeline</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/AgentSentry_Provenance_Light.svg</image:loc>
+      <image:title>AgentSentry argument provenance lineage diagram</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/AgentSentry_Attacks_Light.svg</image:loc>
+      <image:title>AgentSentry attack susceptibility by injected instruction family</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/AgentSentry_Results_Light.svg</image:loc>
+      <image:title>AgentSentry clean-task utility and unseen-server false alarm comparison</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.preet-baxi.com/research/metaaudit.html</loc>
+    <lastmod>2026-11-27</lastmod>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/MetaAudit.png</image:loc>
+      <image:title>MetaAudit LLM-as-a-judge auditing and prediction-powered inference overview</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/MetaAudit_Pipeline_Light.svg</image:loc>
+      <image:title>MetaAudit statistical evaluation workflow with PPI++</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/MetaAudit_Bias_Light.svg</image:loc>
+      <image:title>MetaAudit judge-only versus human-consensus defect rate on HelpSteer2</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/MetaAudit_Budget_Light.svg</image:loc>
+      <image:title>MetaAudit human-label budget savings using two-judge PPI++</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/MetaAudit_Certification_Light.svg</image:loc>
+      <image:title>MetaAudit Edgeworth-corrected dataset certification false-accept comparison</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.preet-baxi.com/research/cora.html</loc>
+    <lastmod>2026-11-27</lastmod>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/CORA_Social_Preview.png</image:loc>
+      <image:title>CORA calibration versus discrimination under input corruption in LLM decision agents</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/CORA_Pipeline_Light.svg</image:loc>
+      <image:title>CORA evaluation pipeline for LLM decision agents</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/CORA_Families_Light.svg</image:loc>
+      <image:title>CORA AUROC comparison across seven input corruption families</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/CORA_Detectors_Light.svg</image:loc>
+      <image:title>CORA out-of-distribution failure detector comparison</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.preet-baxi.com/research/ligo-monitoring.html</loc>
+    <lastmod>2026-11-27</lastmod>
+  </url>
+  <url>
+    <loc>https://www.preet-baxi.com/research/prompt-injection-screening.html</loc>
+    <lastmod>2026-11-27</lastmod>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/Prompt.png</image:loc>
+      <image:title>Prompt Injection in Automated Résumé Screening with LLMs (Findings of ACL 2026)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.preet-baxi.com/research/gaming-the-gatekeeper.html</loc>
+    <lastmod>2026-11-27</lastmod>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/Gatekeeper.png</image:loc>
+      <image:title>Gaming the Gatekeeper adaptive truth-preserving résumé optimization overview</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.preet-baxi.com/research/rai-gate.html</loc>
+    <lastmod>2026-11-27</lastmod>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/RAIGate.png</image:loc>
+      <image:title>RAI-Gate LoRA SFT and DPO safety post-training and release-gate pipeline</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.preet-baxi.com/research/opsagent-rl.html</loc>
+    <lastmod>2026-11-27</lastmod>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/OPS.png</image:loc>
+      <image:title>OpsAgent-RL verifiable-reward reinforcement learning diagram for tool-using agents</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.preet-baxi.com/research/cost-aware-llm-judges.html</loc>
+    <lastmod>2026-11-27</lastmod>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/CostAware.png</image:loc>
+      <image:title>Cost-Aware Routing of LLM Judges sequential verifier selection diagram</image:title>
+    </image:image>
+  </url>
+</urlset>

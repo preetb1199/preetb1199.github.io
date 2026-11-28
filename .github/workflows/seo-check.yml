@@ -1,0 +1,23 @@
+name: SEO Regression Audit
+
+on:
+  push:
+    branches: [main, seo-optimization]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  seo-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run automated technical SEO audit
+        run: python3 scripts/seo_audit.py
