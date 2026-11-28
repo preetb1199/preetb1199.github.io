@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfcfe">
+<title>Indirect Prompt Injection in LLM Pipelines &amp; Agentic Systems: Single vs. Multi-Attacker Dynamics | Preet Baxi</title>
+<meta name="description" content="Research guide to indirect prompt injection across automated LLM résumé screening (Findings of ACL 2026), LLM-as-a-judge spotlighting, and agentic tool boundaries.">
+<meta name="author" content="Preet Baxi">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://www.preet-baxi.com/research/guides/indirect-prompt-injection-agentic-ai.html">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/styles.css?v=seo2026">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Preet Baxi | Research">
+<meta property="og:title" content="Indirect Prompt Injection in LLM Pipelines &amp; Agentic Systems">
+<meta property="og:description" content="Empirical analysis of indirect prompt injection across hiring screening (ACL 2026), multi-attacker equilibrium collapse, adversarial judge evasion, and layered defenses.">
+<meta property="og:url" content="https://www.preet-baxi.com/research/guides/indirect-prompt-injection-agentic-ai.html">
+<meta property="og:image" content="https://www.preet-baxi.com/assets/diagrams/Prompt.png">
+<meta property="og:image:width" content="1672">
+<meta property="og:image:height" content="941">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://www.preet-baxi.com/research/guides/indirect-prompt-injection-agentic-ai.html#article",
+      "headline": "Understanding Indirect Prompt Injection in LLM Pipelines and Agentic Systems: Single- vs. Multi-Attacker Dynamics and Defensive Boundaries",
+      "author": {"@id": "https://www.preet-baxi.com/#person"},
+      "url": "https://www.preet-baxi.com/research/guides/indirect-prompt-injection-agentic-ai.html",
+      "mainEntityOfPage": "https://www.preet-baxi.com/research/guides/indirect-prompt-injection-agentic-ai.html",
+      "datePublished": "2026-11-28",
+      "keywords": ["Indirect prompt injection", "Prompt injection in résumé screening", "Multi-attacker prompt injection", "AI hiring security", "Prompt injection defense", "ACL 2026"],
+      "isAccessibleForFree": true,
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.preet-baxi.com/#person",
+      "name": "Preet Baxi",
+      "url": "https://www.preet-baxi.com/",
+      "affiliation": {"@type": "CollegeOrUniversity", "name": "University of Michigan", "url": "https://umich.edu/"}
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.preet-baxi.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Research", "item": "https://www.preet-baxi.com/research/"},
+        {"@type": "ListItem", "position": 3, "name": "Prompt Injection (ACL 2026)", "item": "https://www.preet-baxi.com/research/prompt-injection-screening.html"},
+        {"@type": "ListItem", "position": 4, "name": "Indirect Prompt Injection Guide", "item": "https://www.preet-baxi.com/research/guides/indirect-prompt-injection-agentic-ai.html"}
+      ]
+    }
+  ]
+}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="container nav-inner"><a aria-label="Preet Baxi home" class="brand" href="/">Preet Baxi</a><nav aria-label="Main navigation" class="nav-links" data-nav><a aria-current="page" href="/research/">Research</a><a href="/publications.html">Publications</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav><div class="nav-actions"><button aria-label="Switch to dark mode" class="theme-toggle" data-theme-toggle type="button">☾</button><a class="cv-button" href="../../assets/Preet_Baxi_CV.pdf" rel="noopener noreferrer" target="_blank">View CV ↗</a><button aria-expanded="false" aria-label="Open menu" class="menu-toggle" data-menu-toggle type="button">☰</button></div></div></header>
+<main id="main">
+<section class="container tone-rose">
+<nav aria-label="Breadcrumb" class="breadcrumbs"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/research/">Research</a><span aria-hidden="true">/</span><a href="/research/prompt-injection-screening.html">ACL 2026 Study</a><span aria-hidden="true">/</span><span aria-current="page">Indirect Prompt Injection Guide</span></nav>
+
+<div class="detail-hero">
+  <div>
+    <div class="eyebrow">Technical Research Guide · Peer-Reviewed ACL 2026 + Agentic Security</div>
+    <h1>Understanding Indirect Prompt Injection in LLM Pipelines &amp; Agentic Systems</h1>
+    <div class="subtitle">Why untrusted data hijacks model decisions, how multi-attacker equilibrium collapses, and where defenses succeed or fail</div>
+    <p>Indirect prompt injection occurs when an adversary embeds steering instructions inside external data—a résumé, an incoming email, a graded model output, or a third-party tool schema—that an LLM processes alongside privileged system instructions. Because transformer attention does not inherently isolate control planes from data planes, untrusted spans can hijack rankings, evaluations, or tool calls.</p>
+  </div>
+  <aside class="detail-side-stat"><div class="smallcaps">PEER-REVIEWED ANCHOR</div><strong>Findings of ACL 2026</strong><p>First-author study of single- vs. multi-attacker prompt injection in LLM résumé screening with open Python pipeline.</p></aside>
+</div>
+
+<figure class="detail-figure">
+  <picture><source srcset="../../assets/diagrams/Prompt.webp" type="image/webp"><img src="../../assets/diagrams/Prompt.png" width="1672" height="941" loading="eager" alt="Diagram illustrating single-attacker and multi-attacker indirect prompt injection in automated LLM résumé screening from Findings of ACL 2026."></picture>
+  <figcaption>Figure 1. Experimental design of single- and multi-attacker indirect prompt injection in LLM-based candidate ranking (<a href="https://aclanthology.org/2026.findings-acl.142/" rel="noopener noreferrer" target="_blank">Findings of ACL 2026 ↗</a>).</figcaption>
+</figure>
+
+<div class="research-detail-columns">
+<article>
+<h2>1. Three operational attack surfaces for indirect prompt injection</h2>
+<p>Across our empirical studies, indirect prompt injection manifests in three distinct operational failure modes depending on what sits downstream of the LLM:</p>
+<ol>
+  <li><strong>Competitive ranking pipelines (Automated hiring):</strong> Subtle self-promotional text embedded in a résumé adds zero factual qualifications yet steers an LLM ranker to elevate the injecting applicant (<a href="/research/prompt-injection-screening.html">Findings of ACL 2026</a>).</li>
+  <li><strong>Automated evaluation graders (LLM-as-a-judge):</strong> Malicious instructions placed inside a defective response persuade an automated judge to mark a broken output as passing (<a href="/research/metaaudit.html">MetaAudit</a>).</li>
+  <li><strong>Tool-using AI agents (MCP &amp; external sinks):</strong> Untrusted email, web, or CRM content redirects a privileged tool call—exfiltrating secrets, transferring funds, or modifying external state (<a href="/research/agentsentry.html">AgentSentry</a>).</li>
+</ol>
+
+<h2>2. Empirical findings from Findings of ACL 2026 (Single vs. multi-attacker dynamics)</h2>
+<p>In <em>Prompt Injection in Automated Résumé Screening with Large Language Models: Single and Multi-Injection Settings</em> (Baxi, Xu, Jiang &amp; Jasin, Findings of ACL 2026, pp. 2942–2953), we constructed reproducible 10-candidate ranking experiments with randomized presentation order, universal candidate ID remapping (<code>DATA/UNIVERSAL_MAPPING_10.csv</code>), and randomized top/bottom injection placement across homogeneous (<code>HOMO_5</code>, <code>HOMO_10</code>) and heterogeneous (<code>HETERO_5_5_10_5</code>) pools.</p>
+<div class="ae-table-wrap">
+<table>
+  <thead><tr><th>Tested Setting (ACL 2026)</th><th>Model</th><th>Observed Attack Success</th><th>Mean Rank Gain</th><th>Statistical Pipeline</th></tr></thead>
+  <tbody>
+    <tr><td>Instructive single-attacker (homogeneous)</td><td>DeepSeek-V3.2</td><td><strong>93.2%</strong></td><td><strong>+6.50 positions</strong></td><td><code>WELCH_STATS_ALL.py</code> (two-sided Welch t-test)</td></tr>
+    <tr><td>Instructive single-attacker (homogeneous)</td><td>GPT-4o-mini</td><td><strong>45.6%</strong></td><td><strong>+2.64 positions</strong></td><td><code>COUNTER_STATS_ALL.py</code> &amp; <code>RANK_REMAPPING_ALL.py</code></td></tr>
+    <tr><td>Multi-attacker saturation</td><td>Both tested models</td><td>Rapidly diminishes</td><td>Collapses as prevalence grows</td><td>Zero-sum pool interaction</td></tr>
+    <tr><td>Heterogeneous candidate quality</td><td>Both tested models</td><td>Lower on average</td><td>Occasional rank inversions</td><td>Lower-quality applicants can outrank stronger peers</td></tr>
+  </tbody>
+</table>
+</div>
+<p><strong>Key strategic insight:</strong> LLM-based screening is most vulnerable precisely when manipulation is <em>rare</em> and candidate quality differences are <em>small</em>. When manipulation becomes widespread, competing injections cancel out in the zero-sum ranking pool—yet heterogeneous-pool rank inversions still create concrete fairness risks.</p>
+
+<h2>3. Reproducibility: inspecting the ACL 2026 experiment pipeline</h2>
+<p>All code, prompt templates, injection payloads, candidate mappings, Welch t-tests, and figure scripts are publicly archived in <a href="https://github.com/preetb1199/Prompt_Injection_ACL26" rel="noopener noreferrer" target="_blank"><code>preetb1199/Prompt_Injection_ACL26</code> ↗</a>. Researchers can reproduce end-to-end runs via four scripts: <code>USER_MAIN_ALL.py</code> (configuration entry point), <code>COUNTER_STATS_ALL.py</code> (positive/negative/zero rank-shift counts), <code>WELCH_STATS_ALL.py</code> (Welch t-statistics and two-sided p-values), and <code>FIGURES_ALL.py</code> (paper figures 1–6).</p>
+
+<h2>4. Why prompt-level defenses alone are insufficient—and how layers work together</h2>
+<p>Across our broader portfolio, defensive effectiveness varies sharply by model family and threat model:</p>
+<ul>
+  <li><strong>Spotlighting / input delimiting is model-dependent:</strong> In <a href="/research/metaaudit.html">MetaAudit</a>, spotlighting reduced prompt-injection defect evasion on DeepSeek from <strong>13.9% to 4.9%</strong>, yet showed no statistically significant benefit on GPT-4o-mini—and an urgent/"important" payload still reached <strong>49%</strong> evasion in its tested condition.</li>
+  <li><strong>Statistical auditing absorbs grader manipulation:</strong> Even when an adversary manipulates an automated judge, random human reference auditing via PPI++ estimates the residual error and keeps population-level bias below one percentage point in MetaAudit's tested comparison (at the cost of wider intervals / lower label savings).</li>
+  <li><strong>Execution-boundary controls stop side effects:</strong> For tool-using agents, <a href="/research/agentsentry.html">AgentSentry</a> shows that checking argument provenance before tool execution prevents unauthorized side effects without suffering the unseen-server false alarms of lexical prompt classifiers—though adaptive payload splitting remains an open challenge.</li>
+  <li><strong>Truth-preserving optimization extends the threat model:</strong> Ongoing work in <a href="/research/gaming-the-gatekeeper.html">Gaming the Gatekeeper</a> studies whether iterative black-box rewriting constrained by a factual ledger can still distort rankings without overt prompt injection, while <a href="/research/rai-gate.html">RAI-Gate</a> investigates LoRA SFT/DPO post-training gated on BIPIA, JailbreakBench, XSTest, and BBQ.</li>
+</ul>
+
+<h2>5. Authoritative references</h2>
+<ul>
+  <li><a href="https://aclanthology.org/2026.findings-acl.142/" rel="noopener noreferrer" target="_blank">Baxi, Xu, Jiang &amp; Jasin (2026), <em>Prompt Injection in Automated Résumé Screening with Large Language Models: Single and Multi-Injection Settings</em>, Findings of ACL 2026, pp. 2942–2953 ↗</a></li>
+  <li><a href="https://arxiv.org/abs/2606.27287" rel="noopener noreferrer" target="_blank">arXiv:2606.27287 (Preprint) ↗</a> · <a href="https://github.com/preetb1199/Prompt_Injection_ACL26" rel="noopener noreferrer" target="_blank">GitHub Code Repository ↗</a></li>
+  <li><a href="https://arxiv.org/abs/2302.12173" rel="noopener noreferrer" target="_blank">Greshake et al. (2023), <em>Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection</em> (arXiv:2302.12173) ↗</a></li>
+  <li><a href="https://arxiv.org/abs/2312.14197" rel="noopener noreferrer" target="_blank">Yi et al. (2023), <em>Benchmarking and Defending Against Indirect Prompt Injection Attacks (BIPIA)</em> (arXiv:2312.14197) ↗</a></li>
+  <li><a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/" rel="noopener noreferrer" target="_blank">OWASP Top 10 for LLM Applications: LLM01 Prompt Injection ↗</a></li>
+</ul>
+</article>
+
+<aside class="research-fact-panel">
+  <div class="smallcaps">GUIDE METADATA</div>
+  <h3>Indirect Prompt Injection</h3>
+  <p>Written by <a href="/">Preet Baxi</a> · Anchored in Findings of ACL 2026 (`10.18653/v1/2026.findings-acl.142`).</p>
+  <hr>
+  <div class="smallcaps" style="margin-bottom:10px">RELATED RESEARCH</div>
+  <p><a class="subtle-link" href="/research/prompt-injection-screening.html">ACL 2026 Project Page →</a></p>
+  <p><a class="subtle-link" href="/research/gaming-the-gatekeeper.html">Gaming the Gatekeeper →</a></p>
+  <p><a class="subtle-link" href="/research/agentsentry.html">AgentSentry Runtime Guard →</a></p>
+  <p><a class="subtle-link" href="/research/metaaudit.html">MetaAudit Judge Spotlighting →</a></p>
+</aside>
+</div>
+</section>
+</main>
+<footer class="container footer"><span>© 2026 Preet Baxi · Research on the reliability and security of intelligent systems</span><div class="footer-links"><a href="mailto:preet.baxi.8@gmail.com">Email</a><a href="https://www.linkedin.com/in/preet-baxi/" rel="noopener noreferrer" target="_blank">LinkedIn</a><a href="https://github.com/preetb1199" rel="noopener noreferrer" target="_blank">GitHub</a><a href="https://scholar.google.com/citations?user=dpuZ0_IAAAAJ" rel="noopener noreferrer" target="_blank">Scholar</a></div></footer>
+<script defer src="../../assets/site.js"></script>
+</body>
+</html>

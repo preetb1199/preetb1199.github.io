@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfcfe">
+<title>Continuous-Wave Hardware Injection Monitoring in LIGO (O4): Estimators, Timing &amp; Signal Validation | Preet Baxi</title>
+<meta name="description" content="Technical guide to continuous-wave (CW) hardware injection monitoring in Advanced LIGO Observing Run 4 (CQG 2026): matched filtering, F-statistic, Bayesian reconstruction, microsecond timing validation, and grouped semi-coherent template spacing.">
+<meta name="author" content="Preet Baxi">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://www.preet-baxi.com/research/guides/ligo-continuous-wave-hardware-injections.html">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/styles.css?v=seo2026">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Preet Baxi | Research">
+<meta property="og:title" content="Continuous-Wave Hardware Injection Monitoring in LIGO (O4): Estimators &amp; Timing Validation">
+<meta property="og:description" content="Peer-reviewed CQG 2026 technical guide to monitoring 18 continuous-wave hardware injections across 12–2,991 Hz, microsecond timing accuracy, and semi-coherent CW SNR estimation.">
+<meta property="og:url" content="https://www.preet-baxi.com/research/guides/ligo-continuous-wave-hardware-injections.html">
+<meta property="og:image" content="https://www.preet-baxi.com/assets/portrait-high-resolution.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://www.preet-baxi.com/research/guides/ligo-continuous-wave-hardware-injections.html#article",
+      "headline": "Continuous-Wave Hardware Injection Monitoring in LIGO: Matched Filtering, F-Statistic, Bayesian Reconstruction, and Semi-Coherent Template Spacing",
+      "author": {"@id": "https://www.preet-baxi.com/#person"},
+      "url": "https://www.preet-baxi.com/research/guides/ligo-continuous-wave-hardware-injections.html",
+      "mainEntityOfPage": "https://www.preet-baxi.com/research/guides/ligo-continuous-wave-hardware-injections.html",
+      "datePublished": "2026-11-28",
+      "keywords": ["LIGO hardware injections", "Continuous gravitational waves", "Continuous-wave hardware injection monitoring", "LIGO timing accuracy", "Gravitational-wave detector calibration", "Continuous-wave signal processing"],
+      "isAccessibleForFree": true,
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.preet-baxi.com/#person",
+      "name": "Preet Baxi",
+      "url": "https://www.preet-baxi.com/",
+      "affiliation": {"@type": "CollegeOrUniversity", "name": "University of Michigan", "url": "https://umich.edu/"}
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.preet-baxi.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Research", "item": "https://www.preet-baxi.com/research/"},
+        {"@type": "ListItem", "position": 3, "name": "LIGO Signal Validation", "item": "https://www.preet-baxi.com/research/ligo-monitoring.html"},
+        {"@type": "ListItem", "position": 4, "name": "CW Hardware Injections Guide", "item": "https://www.preet-baxi.com/research/guides/ligo-continuous-wave-hardware-injections.html"}
+      ]
+    }
+  ]
+}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="container nav-inner"><a aria-label="Preet Baxi home" class="brand" href="/">Preet Baxi</a><nav aria-label="Main navigation" class="nav-links" data-nav><a aria-current="page" href="/research/">Research</a><a href="/publications.html">Publications</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav><div class="nav-actions"><button aria-label="Switch to dark mode" class="theme-toggle" data-theme-toggle type="button">☾</button><a class="cv-button" href="../../assets/Preet_Baxi_CV.pdf" rel="noopener noreferrer" target="_blank">View CV ↗</a><button aria-expanded="false" aria-label="Open menu" class="menu-toggle" data-menu-toggle type="button">☰</button></div></div></header>
+<main id="main">
+<section class="container tone-teal">
+<nav aria-label="Breadcrumb" class="breadcrumbs"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/research/">Research</a><span aria-hidden="true">/</span><a href="/research/ligo-monitoring.html">LIGO Signal Validation</a><span aria-hidden="true">/</span><span aria-current="page">CW Hardware Injections Guide</span></nav>
+
+<div class="detail-hero">
+  <div>
+    <div class="eyebrow">Technical Research Guide · Peer-Reviewed CQG 2026 + Open Python Code</div>
+    <h1>Continuous-Wave Hardware Injection Monitoring in Advanced LIGO</h1>
+    <div class="subtitle">Validating end-to-end detector calibration, phase coherence over 10¹¹ cycles, and microsecond timing accuracy during Observing Run 4</div>
+    <p>Unlike transient binary black-hole mergers lasting fractions of a second, continuous gravitational waves (CWs) from non-axisymmetric, rapidly spinning galactic neutron stars are persistent, nearly monochromatic signals buried deep in interferometer noise. Validating that Advanced LIGO hardware, calibration transfer functions, and search pipelines preserve amplitude, phase, and timing requires physical hardware injections monitored continuously throughout an observing run.</p>
+  </div>
+  <aside class="detail-side-stat"><div class="smallcaps">PUBLISHED CQG 2026</div><strong>~44% Lower Uncertainty</strong><p>Amplitude uncertainty reduction and 3–6 μs timing validation across 18 CW hardware injections (12–2,991 Hz).</p></aside>
+</div>
+
+<div class="research-detail-columns">
+<article>
+<h2>1. Why physical hardware injections are irreplaceable</h2>
+<p>During LIGO's fourth observing run (O4), <strong>18 simulated continuous-wave signals</strong> spanning approximately <strong>12–2,991 Hz</strong> are physically actuated onto the interferometer test-mass mirrors via the detector actuation chain. Unlike software injections added after digitization, hardware injections traverse the complete physical optical cavity, sensing electronics, digital calibration filter, data-cleaning stages, and downstream astrophysical pipelines.</p>
+<p>Because year-long coherent CW searches integrate phase over as many as <strong>10¹¹ signal cycles</strong>, unmodeled timing offsets or phase drifts can rapidly degrade detection sensitivity—especially at kilohertz frequencies where a few microseconds corresponds to a measurable phase shift.</p>
+
+<h2>2. Comparing three O4 CW validation estimators (CQG 2026)</h2>
+<p>In <em>Monitoring of continuous-wave hardware injections in LIGO interferometers during the O4 observing run</em> (Baxi, Leviton, Morag, Pitkin &amp; Riles, <em>Classical and Quantum Gravity</em> 43(13), 135019, July 2026), we compare three distinct estimation paradigms operating on daily and weekly timescales:</p>
+<div class="ae-table-wrap">
+<table>
+  <thead><tr><th>Estimator Paradigm</th><th>Parameters Marginalized / Known</th><th>Primary Strength</th><th>Observed O4 Validation Role</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Templated Matched Filter</strong></td><td>Uses exact known injection waveform template (1,800-s Fourier segments, adaptive power windows, inverse-variance weighting)</td><td><strong>~44% lower amplitude uncertainty</strong> vs. benchmarked estimators; direct absolute phase &amp; timing delay extraction</td><td>Automated daily pipeline on the Caltech computing cluster validating <strong>~3–6 μs</strong> timing offsets</td></tr>
+    <tr><td><strong>Frequentist ℱ-statistic</strong></td><td>Analytically maximizes/marginalizes over unknown amplitude, initial phase, polarization, and inclination</td><td>Standard astrophysical CW detection statistic (Jaranowski, Królak &amp; Schutz, 1998)</td><td>End-to-end validation of standard frequentist search pipelines</td></tr>
+    <tr><td><strong>Bayesian Parameter Reconstruction</strong></td><td>Posterior sampling over source parameters alongside explicit noise characterization</td><td>Full joint posterior uncertainty across source parameters</td><td>Complementary weekly/multi-parameter verification</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>3. Signal-processing workflow: 1,800-second SFTs &amp; inverse-variance weighting</h2>
+<p>The automated daily matched-filter pipeline ingests calibrated strain segmented into <strong>1,800-second Short Fourier Transforms (SFTs)</strong>, applies adaptive power windows around each known Doppler-modulated injection frequency track, estimates local background noise power spectral density, and combines segments via inverse-variance weighting. Running daily on the Caltech computing cluster allows rapid detection of calibration anomalies, missing injection actuation, or timing shifts without waiting for post-run offline analyses.</p>
+
+<h2>4. Semi-coherent CW search statistics &amp; open Python tooling (<code>CalculateSNRg_Python</code>)</h2>
+<p>Beyond targeted hardware-injection monitoring, wide-parameter-space CW searches divide long observing runs of duration <code>T_obs</code> into <code>N_seg = floor(T_obs / T_coh)</code> coherent segments, choosing coherence time <code>T_coh</code> so that frequency spin-down <code>ḟ</code> drifts by roughly half a frequency bin per segment:</p>
+<pre>T_coh ≈ sqrt(0.5 / |ḟ|)</pre>
+<p>Our open-source repository <a href="https://github.com/preetb1199/CalculateSNRg_Python" rel="noopener noreferrer" target="_blank"><code>CalculateSNRg_Python</code> ↗</a> implements a grouped semi-coherent search simulation (<code>PY_Calculate_SNRG.py</code> + <code>SNRgModelParams.csv</code>) computing grouped signal-to-noise ratios (<code>SNR_g</code> for group sizes <code>M ≤ g ≤ N</code>), analytical noise mean/standard deviation, predicted signal detection statistics, and cubic-spline template spacings (<code>scipy.interpolate.UnivariateSpline</code>) identifying the step in <code>Δf₀</code> or <code>Δḟ</code> that produces a 20% drop in <code>SNR_g</code>.</p>
+
+<h2>5. Scope &amp; authoritative references</h2>
+<p class="disclaimer">Reported ~44% uncertainty reductions and 3–6 μs timing measurements are specific to the published O4 hardware-injection monitoring study and its 18 injected test signals.</p>
+<ul>
+  <li><a href="https://doi.org/10.1088/1361-6382/ae7adb" rel="noopener noreferrer" target="_blank">Baxi, Leviton, Morag, Pitkin &amp; Riles (2026), <em>Monitoring of continuous-wave hardware injections in LIGO interferometers during the O4 observing run</em>, Classical and Quantum Gravity 43(13), 135019 ↗</a></li>
+  <li><a href="https://arxiv.org/abs/2601.09918" rel="noopener noreferrer" target="_blank">arXiv:2601.09918 (Open-Access Preprint) ↗</a> · <a href="https://github.com/preetb1199/CalculateSNRg_Python" rel="noopener noreferrer" target="_blank">CalculateSNRg_Python (GitHub) ↗</a></li>
+  <li><a href="https://doi.org/10.1103/PhysRevD.58.063001" rel="noopener noreferrer" target="_blank">Jaranowski, Królak &amp; Schutz (1998), <em>Data analysis of gravitational-wave signals from spinning neutron stars: The signal and its detection</em>, Physical Review D 58, 063001 ↗</a></li>
+  <li><a href="https://doi.org/10.1103/PhysRevD.104.084080" rel="noopener noreferrer" target="_blank">Divyajyoti, Baxi, Mishra &amp; Arun (2021), <em>Detectability of gravitational higher order modes in the third-generation era</em>, Physical Review D 104(8), 084080 ↗</a></li>
+  <li><a href="https://www.ligo.caltech.edu/page/gw-sources" rel="noopener noreferrer" target="_blank">LIGO Laboratory (Caltech), <em>Sources and Types of Gravitational Waves</em> ↗</a></li>
+</ul>
+</article>
+
+<aside class="research-fact-panel">
+  <div class="smallcaps">GUIDE METADATA</div>
+  <h3>LIGO CW Hardware Injections</h3>
+  <p>Written by <a href="/">Preet Baxi</a> · Anchored in CQG 43(13), 135019 (2026) and `CalculateSNRg_Python`.</p>
+  <hr>
+  <div class="smallcaps" style="margin-bottom:10px">RELATED RESEARCH</div>
+  <p><a class="subtle-link" href="/research/ligo-monitoring.html">LIGO Signal Validation Page →</a></p>
+  <p><a class="subtle-link" href="/publications.html#cqg-2026">CQG 2026 BibTeX &amp; Abstract →</a></p>
+  <p><a class="subtle-link" href="/publications.html#prd-2021">PRD 2021 3G Detectors Paper →</a></p>
+  <p><a class="subtle-link" href="https://github.com/preetb1199/CalculateSNRg_Python" rel="noopener noreferrer" target="_blank">CalculateSNRg_Python Code ↗</a></p>
+</aside>
+</div>
+</section>
+</main>
+<footer class="container footer"><span>© 2026 Preet Baxi · Research on the reliability and security of intelligent systems</span><div class="footer-links"><a href="mailto:preet.baxi.8@gmail.com">Email</a><a href="https://www.linkedin.com/in/preet-baxi/" rel="noopener noreferrer" target="_blank">LinkedIn</a><a href="https://github.com/preetb1199" rel="noopener noreferrer" target="_blank">GitHub</a><a href="https://scholar.google.com/citations?user=dpuZ0_IAAAAJ" rel="noopener noreferrer" target="_blank">Scholar</a></div></footer>
+<script defer src="../../assets/site.js"></script>
+</body>
+</html>

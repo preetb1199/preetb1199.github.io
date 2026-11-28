@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfcfe">
+<title>Runtime Security for Tool-Using AI Agents: Provenance, Conformal Calibration &amp; MCP Boundaries | Preet Baxi</title>
+<meta name="description" content="Technical guide to runtime security for tool-using AI agents and MCP servers: argument provenance taint tracking, trajectory monitoring, conformal calibration, unseen-server false alarms, and adaptive attack limits.">
+<meta name="author" content="Preet Baxi">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://www.preet-baxi.com/research/guides/runtime-security-tool-using-ai-agents.html">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/styles.css?v=seo2026">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Preet Baxi | Research">
+<meta property="og:title" content="Runtime Security for Tool-Using AI Agents: Provenance, Conformal Calibration &amp; MCP Boundaries">
+<meta property="og:description" content="Empirical technical guide covering argument provenance taint tracking, lexical detector failure on unseen MCP servers, conformal calibration math, and adaptive payload-splitting failure modes.">
+<meta property="og:url" content="https://www.preet-baxi.com/research/guides/runtime-security-tool-using-ai-agents.html">
+<meta property="og:image" content="https://www.preet-baxi.com/assets/diagrams/AgentSentry.png">
+<meta property="og:image:width" content="1672">
+<meta property="og:image:height" content="941">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://www.preet-baxi.com/research/guides/runtime-security-tool-using-ai-agents.html#article",
+      "headline": "A Technical Guide to Runtime Security for Tool-Using AI Agents: Provenance Taint Tracking, Conformal Calibration, and MCP Execution Boundaries",
+      "author": {"@id": "https://www.preet-baxi.com/#person"},
+      "url": "https://www.preet-baxi.com/research/guides/runtime-security-tool-using-ai-agents.html",
+      "mainEntityOfPage": "https://www.preet-baxi.com/research/guides/runtime-security-tool-using-ai-agents.html",
+      "datePublished": "2026-11-28",
+      "keywords": ["AI agent security", "Runtime agent security", "MCP security", "Tool-calling security", "Agent provenance tracking", "Conformal calibration", "Indirect prompt injection"],
+      "isAccessibleForFree": true,
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.preet-baxi.com/#person",
+      "name": "Preet Baxi",
+      "url": "https://www.preet-baxi.com/",
+      "affiliation": {"@type": "CollegeOrUniversity", "name": "University of Michigan", "url": "https://umich.edu/"}
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.preet-baxi.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Research", "item": "https://www.preet-baxi.com/research/"},
+        {"@type": "ListItem", "position": 3, "name": "AgentSentry", "item": "https://www.preet-baxi.com/research/agentsentry.html"},
+        {"@type": "ListItem", "position": 4, "name": "Runtime Security Guide", "item": "https://www.preet-baxi.com/research/guides/runtime-security-tool-using-ai-agents.html"}
+      ]
+    }
+  ]
+}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="container nav-inner"><a aria-label="Preet Baxi home" class="brand" href="/">Preet Baxi</a><nav aria-label="Main navigation" class="nav-links" data-nav><a aria-current="page" href="/research/">Research</a><a href="/publications.html">Publications</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav><div class="nav-actions"><button aria-label="Switch to dark mode" class="theme-toggle" data-theme-toggle type="button">☾</button><a class="cv-button" href="../../assets/Preet_Baxi_CV.pdf" rel="noopener noreferrer" target="_blank">View CV ↗</a><button aria-expanded="false" aria-label="Open menu" class="menu-toggle" data-menu-toggle type="button">☰</button></div></div></header>
+<main id="main">
+<section class="container tone-violet">
+<nav aria-label="Breadcrumb" class="breadcrumbs"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/research/">Research</a><span aria-hidden="true">/</span><a href="/research/agentsentry.html">AgentSentry</a><span aria-hidden="true">/</span><span aria-current="page">Runtime Security Technical Guide</span></nav>
+
+<div class="detail-hero">
+  <div>
+    <div class="eyebrow">Technical Research Guide · Agentic AI &amp; Runtime Security</div>
+    <h1>Runtime Security for Tool-Using AI Agents</h1>
+    <div class="subtitle">Provenance taint tracking, conformal calibration, MCP execution boundaries, and where current defenses break</div>
+    <p>When a language model gains tool-calling privileges across email, file systems, payment APIs, or Model Context Protocol (MCP) servers, indirect prompt injection shifts from a text-generation nuisance into an unauthorized execution vulnerability. This guide synthesizes empirical findings and failure analyses from the <a href="/research/agentsentry.html">AgentSentry</a> research program.</p>
+  </div>
+  <aside class="detail-side-stat"><div class="smallcaps">EMPIRICAL ANCHOR</div><strong>0/120 vs. 120/120</strong><p>Unseen-server clean false alarms: hybrid provenance guard vs. TF-IDF lexical baseline in AgentSentry core tests.</p></aside>
+</div>
+
+<figure class="detail-figure">
+  <img src="../../assets/diagrams/AgentSentry_Research_Overview.svg" width="1120" height="560" loading="eager" alt="Six-stage runtime security architecture showing user request, untrusted external content, LLM agent, provenance attribution guard, gradient-boosted trajectory monitor, and pre-execution authorization decision.">
+  <figcaption>Figure 1. Pre-execution runtime guard architecture from <a href="/research/agentsentry.html">AgentSentry</a>: security enforcement sits between the model's proposed tool call and real external side effects.</figcaption>
+</figure>
+
+<div class="research-detail-columns">
+<article>
+<h2>1. Why text-level defenses fail at the tool boundary</h2>
+<p>Early prompt-injection defenses focused on input classification—scanning retrieved emails, web pages, or documents for attack phrasing such as <em>"ignore previous instructions."</em> While text detectors can achieve high recall on known phrasing templates, they suffer from two structural weaknesses in agentic deployments:</p>
+<ul>
+  <li><strong>Schema and domain shift on unseen tool servers:</strong> When an agent connects to a new third-party MCP server (such as a CRM or external chat workspace), legitimate tool descriptions and payloads introduce unfamiliar vocabulary. In controlled AgentSentry tests on held-out CRM and chat servers, a TF-IDF lexical baseline detected all 34 observed exploits but falsely blocked <strong>120 out of 120 clean episodes</strong>, collapsing clean-task completion from <strong>99.7% to 59.3%</strong>.</li>
+  <li><strong>Separation between text risk and action authority:</strong> Reading an adversarial email is harmless unless untrusted tokens influence a sensitive side-effecting argument—such as an email recipient, file-sharing target, or fund-transfer destination.</li>
+</ul>
+
+<h2>2. Typed tool manifests &amp; precedence-ordered provenance tracking</h2>
+<p>Rather than classifying every incoming token string, runtime execution security inspects the <strong>origin of critical tool arguments</strong> immediately before execution. Each tool exposes a typed manifest declaring its risk class, permission scope, and critical sink parameters (for example, <code>to</code> in <code>send_email</code> or <code>recipient</code> in a payment call).</p>
+<p>Given a proposed critical argument value, provenance attribution normalizes identifiers, numeric variants, and token boundaries (with word-trigram overlap for free text) and resolves the source across recorded context spans in strict precedence order:</p>
+<pre>user request  &gt;  trusted system/directory span  &gt;  untrusted external span  &gt;  unattested</pre>
+<p>Taint propagates across intermediate reasoning and tool steps so previously untrusted values cannot be laundered through an intermediate summary or scratchpad variable.</p>
+
+<figure class="detail-figure">
+  <img src="../../assets/diagrams/AgentSentry_Provenance_Light.svg" width="1120" height="560" loading="lazy" alt="Provenance lineage diagram contrasting a user-approved email recipient allowed to execute versus an attacker-supplied recipient extracted from untrusted email content blocked before execution.">
+  <figcaption>Figure 2. Argument provenance distinguishes authorized user/trusted destinations from attacker-injected destinations before the external sink executes.</figcaption>
+</figure>
+
+<h2>3. Combining structural provenance with trajectory monitoring &amp; conformal calibration</h2>
+<p>Provenance rules alone can be overly strict when legitimate workflows omit explicit prior attestation (yielding <strong>95.7%</strong> clean-task success under policy-only blocking in AgentSentry, with <strong>15/767</strong> step-level false alarms). Pairing provenance with a 31-feature gradient-boosted trajectory monitor and Laplace-smoothed Markov surprisal over risk-class transitions improved clean-task preservation to <strong>99.7%</strong> (matching the unprotected baseline) while reducing step-level false alarms to <strong>3/767</strong>.</p>
+<p>To calibrate alert thresholds without distributional assumptions on clean behavior, conformal calibration computes scores <code>s₁, …, sₙ</code> on a held-out clean calibration split and selects order statistic:</p>
+<pre>k = ceil((n + 1) × (1 − α))   at α = 0.05</pre>
+<p>Under exchangeability of clean episodes, this bounds clean-score exceedance at level <code>α</code>—crucially, it is a calibration of clean false-alarm behavior, <strong>not</strong> a worst-case guarantee against adaptive attackers.</p>
+
+<h2>4. Measured trade-offs: core study vs. adaptive v3 stress test</h2>
+<p>A critical methodological discipline in agent security is separating <em>offline detection</em> from <em>end-to-end protection</em> and never merging distinct experimental suites into one claim:</p>
+<div class="ae-table-wrap">
+<table>
+  <thead><tr><th>Experiment &amp; Defense</th><th>Observed Attack Success</th><th>Clean-Task Success</th><th>Unseen-Server False Alarms</th><th>Key Takeaway</th></tr></thead>
+  <tbody>
+    <tr><td>Core (final-v1): Unprotected</td><td>11.3% (34/300)</td><td>99.7% (299/300)</td><td>—</td><td>Baseline GPT-4o-mini sandbox</td></tr>
+    <tr><td>Core (final-v1): TF-IDF + Block</td><td>0%*</td><td>59.3%</td><td>120/120</td><td>Lexical shift destroys legitimate utility</td></tr>
+    <tr><td>Core (final-v1): Policy + Block</td><td>0%*</td><td>95.7%</td><td>—</td><td>Strict provenance blocks 15/767 clean calls</td></tr>
+    <tr><td><strong>Core (final-v1): Hybrid + Block</strong></td><td><strong>0%*</strong></td><td><strong>99.7%</strong></td><td><strong>0/120</strong></td><td>Best blocking trade-off (Wilson 95% UB ~1.3%)</td></tr>
+    <tr><td>Core (final-v1): Hybrid + Quarantine/Replan</td><td>0%*</td><td>99.3%</td><td>—</td><td>Bounded retry with sanitized context</td></tr>
+    <tr><td>Separate Extension (v3): Adaptive <code>payload_split</code></td><td>28.1% undefended (9/32); 1.7% overall hybrid</td><td>97.8% hybrid</td><td>—</td><td>Threshold interaction muted provenance signal</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="disclaimer">*0% denotes zero observed exploits out of 300 attacked test episodes (Wilson 95% upper bound ≈ 1.3%), not zero true risk. Core and v3 used different prompts and attack constructions and are not directly pooled.</p>
+
+<h2>5. Three failure modes every runtime security designer must address</h2>
+<ol>
+  <li><strong>Scalar threshold override of deterministic rules:</strong> In the AgentSentry v3 extension, the hybrid's conformal threshold reached <code>~0.962</code> while certain untrusted critical flows scored <code>~0.9</code>, allowing adaptive exploits to slip past blocking. Hard capability or information-flow invariants must never be diluted by a learned anomaly threshold.</li>
+  <li><strong>Heuristic string attribution limits:</strong> String matching can fail when an attacker splits, encodes, or paraphrases a payload (<code>payload_split</code> succeeded in 9/32 undefended v3 attempts), or when an attacker value happens to match a trusted span ("most-trusted match wins").</li>
+  <li><strong>External-benchmark transfer gap:</strong> Wiring only a cue-based regex detector into AgentDojo highlighted that synthetic sandboxes often under-elicit attacks and lexical heuristics do not transfer cleanly. Robust defenses require architectural data-flow isolation, explicit capability tokens, and task-aware attestation.</li>
+</ol>
+
+<h2>6. Authoritative references</h2>
+<ul>
+  <li><a href="/research/agentsentry.html">Preet Baxi, <em>AgentSentry: Runtime Security for Tool-Using AI Agents</em> (Full interactive study &amp; limitations) →</a></li>
+  <li><a href="https://arxiv.org/abs/2406.13352" rel="noopener noreferrer" target="_blank">Debenedetti et al. (2024), <em>AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents</em> (arXiv:2406.13352) ↗</a></li>
+  <li><a href="https://arxiv.org/abs/2302.12173" rel="noopener noreferrer" target="_blank">Greshake et al. (2023), <em>Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection</em> (arXiv:2302.12173) ↗</a></li>
+  <li><a href="https://arxiv.org/abs/2107.07511" rel="noopener noreferrer" target="_blank">Angelopoulos &amp; Bates (2021), <em>A Gentle Introduction to Conformal Prediction and Distribution-Free Uncertainty Quantification</em> (arXiv:2107.07511) ↗</a></li>
+  <li><a href="https://modelcontextprotocol.io/specification" rel="noopener noreferrer" target="_blank">Model Context Protocol (MCP) Specification ↗</a></li>
+  <li><a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/" rel="noopener noreferrer" target="_blank">OWASP Top 10 for LLM Applications: LLM01 Prompt Injection ↗</a></li>
+</ul>
+</article>
+
+<aside class="research-fact-panel">
+  <div class="smallcaps">GUIDE METADATA</div>
+  <h3>Runtime Agent Security</h3>
+  <p>Written by <a href="/">Preet Baxi</a> · Grounded in AgentSentry core (final-v1) and v3 adaptive studies.</p>
+  <hr>
+  <div class="smallcaps" style="margin-bottom:10px">RELATED RESEARCH</div>
+  <p><a class="subtle-link" href="/research/agentsentry.html">AgentSentry Interactive Study →</a></p>
+  <p><a class="subtle-link" href="/research/rai-gate.html">RAI-Gate Post-Training Defense →</a></p>
+  <p><a class="subtle-link" href="/research/prompt-injection-screening.html">ACL 2026 Prompt Injection Study →</a></p>
+  <p><a class="subtle-link" href="/publications.html">All Publications →</a></p>
+</aside>
+</div>
+</section>
+</main>
+<footer class="container footer"><span>© 2026 Preet Baxi · Research on the reliability and security of intelligent systems</span><div class="footer-links"><a href="mailto:preet.baxi.8@gmail.com">Email</a><a href="https://www.linkedin.com/in/preet-baxi/" rel="noopener noreferrer" target="_blank">LinkedIn</a><a href="https://github.com/preetb1199" rel="noopener noreferrer" target="_blank">GitHub</a><a href="https://scholar.google.com/citations?user=dpuZ0_IAAAAJ" rel="noopener noreferrer" target="_blank">Scholar</a></div></footer>
+<script defer src="../../assets/site.js"></script>
+</body>
+</html>

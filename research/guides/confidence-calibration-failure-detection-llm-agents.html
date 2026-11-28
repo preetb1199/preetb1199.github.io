@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfcfe">
+<title>Confidence Calibration vs. Discrimination &amp; OOD Failure Detection in LLM Decision Agents | Preet Baxi</title>
+<meta name="description" content="Technical guide to AI decision-making reliability under silent input corruption: why ECE can remain zero while AUROC collapses, verbal vs. token probability elicitation, and out-of-distribution failure detector gating risks.">
+<meta name="author" content="Preet Baxi">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://www.preet-baxi.com/research/guides/confidence-calibration-failure-detection-llm-agents.html">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/styles.css?v=seo2026">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Preet Baxi | Research">
+<meta property="og:title" content="Confidence Calibration vs. Discrimination &amp; OOD Failure Detection in LLM Decision Agents">
+<meta property="og:description" content="Empirical insights from CORA (847,838 API calls): silent staleness, AUROC vs. ECE divergence, shortcut learning in failure detectors, and why ingestion validation beats behavioral gating.">
+<meta property="og:url" content="https://www.preet-baxi.com/research/guides/confidence-calibration-failure-detection-llm-agents.html">
+<meta property="og:image" content="https://www.preet-baxi.com/assets/diagrams/CORA_Social_Preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://www.preet-baxi.com/research/guides/confidence-calibration-failure-detection-llm-agents.html#article",
+      "headline": "When Confidence Breaks Silently: Calibration (ECE), Discrimination (AUROC), and Out-of-Distribution Failure Detection in LLM Decision Agents",
+      "author": {"@id": "https://www.preet-baxi.com/#person"},
+      "url": "https://www.preet-baxi.com/research/guides/confidence-calibration-failure-detection-llm-agents.html",
+      "mainEntityOfPage": "https://www.preet-baxi.com/research/guides/confidence-calibration-failure-detection-llm-agents.html",
+      "datePublished": "2026-11-28",
+      "keywords": ["Agent confidence calibration", "AI decision-making reliability", "ECE vs AUROC", "Out-of-distribution failure detection", "Input corruption", "Murphy decomposition"],
+      "isAccessibleForFree": true,
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.preet-baxi.com/#person",
+      "name": "Preet Baxi",
+      "url": "https://www.preet-baxi.com/",
+      "affiliation": {"@type": "CollegeOrUniversity", "name": "University of Michigan", "url": "https://umich.edu/"}
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.preet-baxi.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Research", "item": "https://www.preet-baxi.com/research/"},
+        {"@type": "ListItem", "position": 3, "name": "CORA", "item": "https://www.preet-baxi.com/research/cora.html"},
+        {"@type": "ListItem", "position": 4, "name": "Calibration &amp; Failure Detection Guide", "item": "https://www.preet-baxi.com/research/guides/confidence-calibration-failure-detection-llm-agents.html"}
+      ]
+    }
+  ]
+}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="container nav-inner"><a aria-label="Preet Baxi home" class="brand" href="/">Preet Baxi</a><nav aria-label="Main navigation" class="nav-links" data-nav><a aria-current="page" href="/research/">Research</a><a href="/publications.html">Publications</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav><div class="nav-actions"><button aria-label="Switch to dark mode" class="theme-toggle" data-theme-toggle type="button">☾</button><a class="cv-button" href="../../assets/Preet_Baxi_CV.pdf" rel="noopener noreferrer" target="_blank">View CV ↗</a><button aria-expanded="false" aria-label="Open menu" class="menu-toggle" data-menu-toggle type="button">☰</button></div></div></header>
+<main id="main">
+<section class="container tone-blue">
+<nav aria-label="Breadcrumb" class="breadcrumbs"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/research/">Research</a><span aria-hidden="true">/</span><a href="/research/cora.html">CORA</a><span aria-hidden="true">/</span><span aria-current="page">Calibration &amp; Failure Detection Guide</span></nav>
+
+<div class="detail-hero">
+  <div>
+    <div class="eyebrow">Technical Research Guide · Reliable AI Decision Agents</div>
+    <h1>When Confidence Breaks Silently: Calibration, Discrimination &amp; OOD Failure Detection</h1>
+    <div class="subtitle">Why low Expected Calibration Error can mask total loss of ranking signal—and why naive failure-detector gating can backfire</div>
+    <p>Evaluating an AI decision agent solely by accuracy or pooled Expected Calibration Error (ECE) obscures how decisions fail when real-world inputs degrade. Drawing on 847,838 recorded API calls across seven corruption families in <a href="/research/cora.html">CORA</a>, this guide explains the separation between calibration and discrimination, out-of-distribution detector failure, and architectural safeguards.</p>
+  </div>
+  <aside class="detail-side-stat"><div class="smallcaps">EMPIRICAL ANCHOR</div><strong>ΔAUROC −0.095 · ΔECE 0.000</strong><p>Primary DeepSeek V4 Flash held-out controlled track (n = 9,000): discrimination fell steeply while pooled ECE stayed near zero.</p></aside>
+</div>
+
+<figure class="detail-figure">
+  <img src="../../assets/diagrams/CORA_Discrimination_Light.svg" width="1200" height="480" loading="eager" alt="Chart comparing DeepSeek V4 Flash held-out AUROC drop (-0.095) against near-zero pooled calibration shift (delta ECE 0.000) demonstrating independence of calibration and discrimination.">
+  <figcaption>Figure 1. Calibration and discrimination separate sharply under held-out input corruptions in <a href="/research/cora.html">CORA</a>.</figcaption>
+</figure>
+
+<div class="research-detail-columns">
+<article>
+<h2>1. Mathematical separation: Calibration (ECE) vs. Discrimination (AUROC)</h2>
+<p>Murphy's classic decomposition of the Brier score partitions probabilistic prediction error into three orthogonal terms: <code>Brier = Reliability − Resolution + Uncertainty</code>. Expected Calibration Error (ECE) tracks <em>Reliability</em>—whether predictions labeled "60%" occur 60% of the time in aggregate. AUROC tracks <em>Resolution / Discrimination</em>—the probability that a randomly chosen positive case receives a higher score than a randomly chosen negative case.</p>
+<p>A trivial base-rate predictor returning <code>0.50</code> on every balanced case achieves <code>ECE = 0.000</code> while delivering zero decision value (<code>AUROC = 0.500</code>). Under <strong>silent staleness</strong>—twenty-day-old evidence whose target five-day window has already elapsed—DeepSeek V4 Flash fell from <code>0.661</code> clean AUROC straight to chance (<code>0.500</code>), while pooled held-out ΔECE stayed <code>0.000 [−0.016, 0.016]</code> due to opposing per-family calibration drifts canceling in the pooled average.</p>
+
+<h2>2. Testing transfer, not memorization: 3 seen vs. 4 held-out corruptions</h2>
+<p>To prevent monitors from memorizing corruption templates, CORA separates development corruptions (<strong>numeric noise</strong>, <strong>evidence dropout</strong>, <strong>labelled staleness</strong>) from four unseen test corruptions (<strong>silent staleness</strong>, <strong>contradiction</strong>, <strong>sentiment reversal</strong>, <strong>prompt injection</strong>) across controlled equities, a freight-delivery transfer domain, and a real-news sanity check.</p>
+
+<figure class="detail-figure">
+  <img src="../../assets/diagrams/CORA_Split_Light.svg" width="1200" height="480" loading="lazy" alt="Experimental transfer split showing three seen training corruption families versus four held-out test corruption families in CORA.">
+  <figcaption>Figure 2. CORA transfer split separating development corruptions from unseen out-of-distribution failure modes.</figcaption>
+</figure>
+
+<div class="ae-table-wrap">
+<table>
+  <thead><tr><th>Controlled-Track Model (CORA)</th><th>Clean AUROC</th><th>Held-Out ΔAUROC (95% CI)</th><th>Held-Out ΔECE (95% CI)</th><th>Learned Detector AUROC</th></tr></thead>
+  <tbody>
+    <tr><td><strong>DeepSeek V4 Flash</strong></td><td>0.661</td><td>−0.095 [−0.108, −0.081]</td><td>0.000 [−0.016, 0.016]</td><td>0.428</td></tr>
+    <tr><td>GPT-4o-mini</td><td>0.652</td><td>−0.101 [−0.115, −0.087]</td><td>+0.049 [0.034, 0.059]</td><td>0.604</td></tr>
+    <tr><td>GPT-5.4 nano</td><td>0.645</td><td>−0.066 [−0.080, −0.051]</td><td>+0.034 [0.006, 0.040]</td><td>0.470</td></tr>
+    <tr><td>GPT-5.4 nano (low reasoning)</td><td>0.671</td><td>−0.097 [−0.115, −0.077]</td><td>+0.021 [−0.003, 0.034]</td><td>0.493</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Across the independent freight-transfer track, all four model configurations similarly exhibited held-out AUROC drops of approximately <code>0.098–0.113</code> alongside positive calibration drift. Furthermore, direct verbal JSON probabilities outperformed token-derived yes/no probabilities for primary DeepSeek (clean ECE <code>0.043</code> vs. <code>0.158</code>; AUROC <code>0.661</code> vs. <code>0.609</code>), and extra reasoning effort did not rescue discrimination under corrupted evidence.</p>
+
+<h2>3. Why out-of-distribution failure detectors fail—and hurt downstream decisions</h2>
+<p>A gradient-boosted tree detector trained on the three seen corruptions collapsed to <strong>0.428 AUROC</strong> (below chance) on the held-out families for primary DeepSeek, compared with <strong>0.666</strong> for confidence-only and <strong>0.702</strong> for agent self-reported warning flags—and even self-reported flags dropped to chance (<strong>0.503</strong>) on silent staleness alone.</p>
+<p>Crucially, evaluating the monitor inside a simulated downstream long–short policy (30% held-out corruption prevalence, 200 assignments) showed that <strong>detector gating reduced annualized return by −3.35 percentage points [−6.08, −1.25]</strong> relative to naive execution. An uncalibrated OOD detector discards valid opportunities faster than it filters corrupted inputs.</p>
+
+<figure class="detail-figure">
+  <img src="../../assets/diagrams/CORA_Detectors_Light.svg" width="1200" height="480" loading="lazy" alt="Comparison of out-of-distribution failure detectors on CORA: gradient-boosted trees 0.428, confidence-only 0.666, and agent self-reported warning flags 0.702 AUROC.">
+  <figcaption>Figure 3. Out-of-distribution failure detection AUROC comparison on the controlled primary-model track.</figcaption>
+</figure>
+
+<h2>4. Practical architectural takeaway: validate freshness at ingestion</h2>
+<p>A behavioral detector observing an agent's output cannot reliably infer the true age of an unlabelled stale input from prose alone. Reliable agentic pipelines must enforce <strong>ingestion-time timestamp validation, source-integrity verification, and schema lineage checks</strong> prior to model inference—and evaluate every proposed mitigation on actual downstream decision outcomes rather than detector AUROC alone.</p>
+
+<h2>5. Authoritative references</h2>
+<ul>
+  <li><a href="/research/cora.html">Preet Baxi, <em>CORA: Calibration, Transfer and Failure Detection Under Input Corruption in LLM Decision Agents</em> →</a></li>
+  <li><a href="https://arxiv.org/abs/1706.04599" rel="noopener noreferrer" target="_blank">Guo et al. (2017), <em>On Calibration of Modern Neural Networks</em>, ICML 2017 (arXiv:1706.04599) ↗</a></li>
+  <li><a href="https://doi.org/10.1175/1520-0450(1973)012%3C0595:ANVPOT%3E2.0.CO;2" rel="noopener noreferrer" target="_blank">Murphy (1973), <em>A New Vector Partition of the Probability Score</em>, Journal of Applied Meteorology ↗</a></li>
+  <li><a href="https://arxiv.org/abs/2106.00170" rel="noopener noreferrer" target="_blank">Gibbs &amp; Candès (2021), <em>Adaptive Conformal Inference Under Distribution Shift</em>, NeurIPS 2021 (arXiv:2106.00170) ↗</a></li>
+</ul>
+</article>
+
+<aside class="research-fact-panel">
+  <div class="smallcaps">GUIDE METADATA</div>
+  <h3>Agent Calibration &amp; Failure Detection</h3>
+  <p>Written by <a href="/">Preet Baxi</a> · Grounded in CORA October 2026 pre-registered runs (not yet peer-reviewed).</p>
+  <hr>
+  <div class="smallcaps" style="margin-bottom:10px">RELATED RESEARCH</div>
+  <p><a class="subtle-link" href="/research/cora.html">CORA Interactive Study →</a></p>
+  <p><a class="subtle-link" href="/research/metaaudit.html">MetaAudit Statistical Auditing →</a></p>
+  <p><a class="subtle-link" href="/research/agentsentry.html">AgentSentry Runtime Security →</a></p>
+  <p><a class="subtle-link" href="/research/">All Research Projects →</a></p>
+</aside>
+</div>
+</section>
+</main>
+<footer class="container footer"><span>© 2026 Preet Baxi · Research on the reliability and security of intelligent systems</span><div class="footer-links"><a href="mailto:preet.baxi.8@gmail.com">Email</a><a href="https://www.linkedin.com/in/preet-baxi/" rel="noopener noreferrer" target="_blank">LinkedIn</a><a href="https://github.com/preetb1199" rel="noopener noreferrer" target="_blank">GitHub</a><a href="https://scholar.google.com/citations?user=dpuZ0_IAAAAJ" rel="noopener noreferrer" target="_blank">Scholar</a></div></footer>
+<script defer src="../../assets/site.js"></script>
+</body>
+</html>

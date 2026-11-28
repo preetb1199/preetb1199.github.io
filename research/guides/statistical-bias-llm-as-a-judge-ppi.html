@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfcfe">
+<title>Why LLM-as-a-Judge Evaluations Are Statistically Biased — and How PPI++ Fixes Them | Preet Baxi</title>
+<meta name="description" content="Technical guide to statistical bias in LLM-as-a-judge evaluation, prediction-powered inference (PPI++), Edgeworth dataset certification, reasoning-judge label savings, and negative active-sampling results.">
+<meta name="author" content="Preet Baxi">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://www.preet-baxi.com/research/guides/statistical-bias-llm-as-a-judge-ppi.html">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/styles.css?v=seo2026">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Preet Baxi | Research">
+<meta property="og:title" content="Why LLM-as-a-Judge Evaluations Are Statistically Biased — and How PPI++ Fixes Them">
+<meta property="og:description" content="Mathematical and empirical guide to LLM-as-a-judge defect bias, PPI++ residual correction, Edgeworth certification bounds, and cost-aware judge auditing.">
+<meta property="og:url" content="https://www.preet-baxi.com/research/guides/statistical-bias-llm-as-a-judge-ppi.html">
+<meta property="og:image" content="https://www.preet-baxi.com/assets/diagrams/MetaAudit.png">
+<meta property="og:image:width" content="1672">
+<meta property="og:image:height" content="941">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://www.preet-baxi.com/research/guides/statistical-bias-llm-as-a-judge-ppi.html#article",
+      "headline": "Why LLM-as-a-Judge Evaluations Are Statistically Biased—and How Prediction-Powered Inference (PPI++) Restores Valid Confidence Intervals",
+      "author": {"@id": "https://www.preet-baxi.com/#person"},
+      "url": "https://www.preet-baxi.com/research/guides/statistical-bias-llm-as-a-judge-ppi.html",
+      "mainEntityOfPage": "https://www.preet-baxi.com/research/guides/statistical-bias-llm-as-a-judge-ppi.html",
+      "datePublished": "2026-11-28",
+      "keywords": ["LLM as a judge", "LLM-as-a-judge reliability", "LLM judge bias", "Prediction-powered inference", "PPI++", "Statistical LLM evaluation", "Edgeworth confidence intervals"],
+      "isAccessibleForFree": true,
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.preet-baxi.com/#person",
+      "name": "Preet Baxi",
+      "url": "https://www.preet-baxi.com/",
+      "affiliation": {"@type": "CollegeOrUniversity", "name": "University of Michigan", "url": "https://umich.edu/"}
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.preet-baxi.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Research", "item": "https://www.preet-baxi.com/research/"},
+        {"@type": "ListItem", "position": 3, "name": "MetaAudit", "item": "https://www.preet-baxi.com/research/metaaudit.html"},
+        {"@type": "ListItem", "position": 4, "name": "LLM-as-a-Judge & PPI++ Guide", "item": "https://www.preet-baxi.com/research/guides/statistical-bias-llm-as-a-judge-ppi.html"}
+      ]
+    }
+  ]
+}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="container nav-inner"><a aria-label="Preet Baxi home" class="brand" href="/">Preet Baxi</a><nav aria-label="Main navigation" class="nav-links" data-nav><a aria-current="page" href="/research/">Research</a><a href="/publications.html">Publications</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav><div class="nav-actions"><button aria-label="Switch to dark mode" class="theme-toggle" data-theme-toggle type="button">☾</button><a class="cv-button" href="../../assets/Preet_Baxi_CV.pdf" rel="noopener noreferrer" target="_blank">View CV ↗</a><button aria-expanded="false" aria-label="Open menu" class="menu-toggle" data-menu-toggle type="button">☰</button></div></div></header>
+<main id="main">
+<section class="container tone-blue">
+<nav aria-label="Breadcrumb" class="breadcrumbs"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/research/">Research</a><span aria-hidden="true">/</span><a href="/research/metaaudit.html">MetaAudit</a><span aria-hidden="true">/</span><span aria-current="page">LLM-as-a-Judge &amp; PPI++ Guide</span></nav>
+
+<div class="detail-hero">
+  <div>
+    <div class="eyebrow">Technical Research Guide · Statistical LLM Evaluation</div>
+    <h1>Why LLM-as-a-Judge Evaluations Are Statistically Biased—and How PPI++ Restores Validity</h1>
+    <div class="subtitle">From naive judge averages to prediction-powered inference, Edgeworth dataset certification, and honest negative results</div>
+    <p>Treating automated LLM judge outputs as if they were unbiased human ground truth creates tight confidence intervals around the wrong answer. This guide summarizes the statistical formulation, empirical evidence, and negative results from <a href="/research/metaaudit.html">MetaAudit</a> and connects them to <a href="/research/cost-aware-llm-judges.html">cost-aware judge routing</a>.</p>
+  </div>
+  <aside class="detail-side-stat"><div class="smallcaps">EMPIRICAL ANCHOR</div><strong>9.2% vs. 17.5%</strong><p>GPT-4o-mini judge-only defect estimate vs. human-consensus defect rate on HelpSteer2 in MetaAudit.</p></aside>
+</div>
+
+<figure class="detail-figure">
+  <img src="../../assets/diagrams/MetaAudit_Pipeline_Light.svg" width="1200" height="440" loading="eager" alt="Five-stage statistical evaluation pipeline: unlabeled dataset scored by LLM judge, random human reference audit, residual bias estimation, PPI++ power-tuned estimator, and valid confidence interval.">
+  <figcaption>Figure 1. The human-grounded statistical auditing workflow evaluated in <a href="/research/metaaudit.html">MetaAudit</a>.</figcaption>
+</figure>
+
+<div class="research-detail-columns">
+<article>
+<h2>1. The core trap: high agreement does not guarantee unbiased estimates</h2>
+<p>Evaluation teams often validate an LLM judge by checking pairwise agreement against human experts (for instance, in MT-Bench MetaAudit recorded <strong>84.3%</strong> DeepSeek–expert agreement and <strong>80.6%</strong> GPT-4o-mini–expert agreement against an <strong>82.3%</strong> expert–expert baseline). Yet strong pairwise agreement can coexist with severe population bias when errors concentrate in specific slices:</p>
+<ul>
+  <li><strong>Underestimation of true defect rates:</strong> On HelpSteer2, GPT-4o-mini alone estimated a <strong>9.2%</strong> defect rate versus the <strong>17.5%</strong> human-consensus rate—missing nearly half of all defects.</li>
+  <li><strong>Length-sliced blind spots:</strong> After multiple-testing analysis, GPT-4o-mini missed <strong>86%</strong> of long defective responses compared with <strong>41%</strong> of short defective responses.</li>
+  <li><strong>Self-evaluation blind spots:</strong> On 21,288 generated math answers, GPT-4o-mini caught only <strong>17%</strong> of its own errors, yielding a negligible <strong>1.06×</strong> label-saving multiplier.</li>
+</ul>
+
+<h2>2. Prediction-Powered Inference (PPI++): estimator &amp; label-saving mechanics</h2>
+<p>Suppose we want to estimate a population mean <code>θ = E[Y]</code> (such as true dataset defect rate) using <code>N</code> unlabeled examples scored by an LLM judge <code>f(Xᵢ)</code> and a small <em>randomly sampled</em> human-audited subset of size <code>n</code> with reference labels <code>Yⱼ</code>. The PPI++ estimator (Angelopoulos, Duchi &amp; Zrnic, 2023) combines the large judge sample with an unbiased residual correction weighted by power-tuning parameter <code>λ ∈ [0, 1]</code>:</p>
+<pre>θ̂_PPI++(λ) = (1 / n) Σ_{j=1}^n Y_j  +  λ · [ (1 / N) Σ_{i=1}^N f(X_i)  −  (1 / n) Σ_{j=1}^n f(X_j) ]</pre>
+<p>Because the audited subset is drawn randomly, <code>E[f(X_j)] = E[f(X_i)]</code>, so the bracketed term has expectation zero for <strong>any</strong> judge—even a biased or prompt-injected judge. Choosing <code>λ</code> from the empirical covariance between <code>Y</code> and <code>f(X)</code> minimizes variance: when the judge correlates strongly with human truth, confidence intervals shrink dramatically; when correlation is weak, <code>λ → 0</code> and the estimator safely reverts to unbiased human-only estimation.</p>
+
+<figure class="detail-figure">
+  <img src="../../assets/diagrams/MetaAudit_PPI_Correction_Light.svg" width="1200" height="440" loading="lazy" alt="Illustrative PPI++ residual correction showing a 38 percent LLM judge prediction corrected by a -2 percentage-point human audit residual to yield a 36 percent unbiased estimate.">
+  <figcaption>Figure 2. How PPI++ residual correction removes systematic judge bias using a random human audit.</figcaption>
+</figure>
+
+<h2>3. Empirical label savings: subjective vs. verifiable tasks</h2>
+<p>In MetaAudit's empirical tests across <code>n ≥ 100</code> audited samples, PPI++ confidence intervals achieved <strong>0.89–0.91 empirical coverage</strong> against a 0.90 nominal target—while revealing a sharp contrast between subjective and verifiable domains:</p>
+<div class="ae-table-wrap">
+<table>
+  <thead><tr><th>Evaluation Regime (MetaAudit v2/v3)</th><th>Effective Label Multiplier</th><th>Interpretation</th></tr></thead>
+  <tbody>
+    <tr><td>Subjective helpfulness (DeepSeek thinking off vs. on)</td><td><strong>1.27× vs. 1.29×</strong></td><td>Extra test-time reasoning barely improves subjective judge–human correlation</td></tr>
+    <tr><td>Two-judge HelpSteer2 audit vs. human-only</td><td><strong>786 vs. 957 labels (−18%)</strong></td><td>Modest but genuine savings with statistical validity</td></tr>
+    <tr><td>Verifiable math (DeepSeek thinking off vs. on)</td><td><strong>1.90× vs. 3.80×</strong></td><td>Reasoning substantially strengthens judge accuracy when truth is verifiable</td></tr>
+    <tr><td>Verifiable math four-judge cross-fitted ensemble (<code>n = 800</code>)</td><td><strong>4.7×</strong></td><td>Distinct verifiable condition; not transferable to subjective tasks</td></tr>
+    <tr><td>Self-audit (GPT-4o-mini grading its own math, 21,288 items)</td><td><strong>1.06×</strong></td><td>Self-judging yields almost no statistical benefit here</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>4. One-sided dataset certification &amp; Edgeworth skewness correction</h2>
+<p>When a release gate asks <em>"Can we ship this dataset if the true defect rate is below threshold τ?"</em>, normal approximations break down for rare defects and modest audit sizes because the residual distribution is skewed. In MetaAudit's certification tests under a <strong>10%</strong> false-accept target:</p>
+<ul>
+  <li>The initial normal approximation (v2) violated calibration at <strong>12.2%</strong> false accepts.</li>
+  <li>Adding an <strong>Edgeworth skewness correction</strong> (v3) restored observed false accepts to <strong>9.2%</strong> (below the 10% target) while improving power on genuinely good datasets from <strong>0.80</strong> (human-only) to <strong>0.86</strong>.</li>
+</ul>
+
+<figure class="detail-figure">
+  <img src="../../assets/diagrams/MetaAudit_Certification_Light.svg" width="1200" height="450" loading="lazy" alt="Dataset certification chart showing Edgeworth correction lowering false accepts from 12.2 percent to 9.2 percent under a 10 percent target while increasing statistical power from 0.80 to 0.86.">
+  <figcaption>Figure 3. Edgeworth-corrected one-sided certification in MetaAudit v3 versus initial v2 and human-only baselines.</figcaption>
+</figure>
+
+<h2>5. Negative results worth knowing before deploying</h2>
+<ul>
+  <li><strong>Active sampling hurt efficiency (0.82×):</strong> Adaptive selection performed worse than simple random sampling in the tested regime.</li>
+  <li><strong>Anytime-valid sequential testing saved zero labels:</strong> It preserved statistical validity but offered no sample-size savings in the reported test.</li>
+  <li><strong>Pairing with cost-aware routing:</strong> While PPI++ minimizes <em>human</em> auditing cost, sequential two-LLM routing (<a href="/research/cost-aware-llm-judges.html">Cost-Aware Routing of LLM Judges</a>) minimizes <em>model inference &amp; latency</em> cost by escalating only ambiguous items to stronger verifiers.</li>
+</ul>
+
+<h2>6. Authoritative references</h2>
+<ul>
+  <li><a href="/research/metaaudit.html">Preet Baxi, <em>MetaAudit: Auditing LLM-as-a-Judge Reliability with Human-Grounded Statistical Inference</em> →</a></li>
+  <li><a href="https://doi.org/10.1126/science.adi6000" rel="noopener noreferrer" target="_blank">Angelopoulos et al. (2023), <em>Prediction-Powered Inference</em>, Science 382(6671) ↗</a></li>
+  <li><a href="https://arxiv.org/abs/2311.01453" rel="noopener noreferrer" target="_blank">Angelopoulos, Duchi &amp; Zrnic (2023), <em>PPI++: Efficient Prediction-Powered Inference</em> (arXiv:2311.01453) ↗</a></li>
+  <li><a href="https://arxiv.org/abs/2306.05685" rel="noopener noreferrer" target="_blank">Zheng et al. (2023), <em>Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena</em> (arXiv:2306.05685) ↗</a></li>
+  <li><a href="https://arxiv.org/abs/2406.08673" rel="noopener noreferrer" target="_blank">Wang et al. (2024), <em>HelpSteer2: Open-Source Dataset for Training Top-Performing Reward Models</em> (arXiv:2406.08673) ↗</a></li>
+</ul>
+</article>
+
+<aside class="research-fact-panel">
+  <div class="smallcaps">GUIDE METADATA</div>
+  <h3>LLM-as-a-Judge &amp; PPI++</h3>
+  <p>Written by <a href="/">Preet Baxi</a> · Grounded in MetaAudit v2/v3 empirical evaluations.</p>
+  <hr>
+  <div class="smallcaps" style="margin-bottom:10px">RELATED RESEARCH</div>
+  <p><a class="subtle-link" href="/research/metaaudit.html">MetaAudit Interactive Study →</a></p>
+  <p><a class="subtle-link" href="/research/cost-aware-llm-judges.html">Cost-Aware LLM Judge Routing →</a></p>
+  <p><a class="subtle-link" href="/research/cora.html">CORA Calibration Study →</a></p>
+  <p><a class="subtle-link" href="/publications.html">All Publications →</a></p>
+</aside>
+</div>
+</section>
+</main>
+<footer class="container footer"><span>© 2026 Preet Baxi · Research on the reliability and security of intelligent systems</span><div class="footer-links"><a href="mailto:preet.baxi.8@gmail.com">Email</a><a href="https://www.linkedin.com/in/preet-baxi/" rel="noopener noreferrer" target="_blank">LinkedIn</a><a href="https://github.com/preetb1199" rel="noopener noreferrer" target="_blank">GitHub</a><a href="https://scholar.google.com/citations?user=dpuZ0_IAAAAJ" rel="noopener noreferrer" target="_blank">Scholar</a></div></footer>
+<script defer src="../../assets/site.js"></script>
+</body>
+</html>
