@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Search Performance Monitoring Dashboard — www.preet-baxi.com</title>
+<style>
+  :root{--bg:#f8fafc;--card:#ffffff;--ink:#0f172a;--muted:#475569;--line:#e2e8f0;--accent:#2563eb;--ok:#059669;--warn:#d97706;--bad:#dc2626}
+  *{box-sizing:border-box}
+  body{margin:0;font:14px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+  header{background:#0f172a;color:#f8fafc;padding:22px 28px}
+  header h1{margin:0 0 4px;font-size:20px}
+  header p{margin:0;color:#cbd5e1;font-size:13px}
+  main{max-width:1240px;margin:24px auto;padding:0 20px 48px}
+  .notice{background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:14px 16px;margin-bottom:18px;font-size:13px;color:#1e3a8a}
+  .grid{display:grid;gap:14px}
+  .g-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  .g-2{grid-template-columns:repeat(auto-fit,minmax(360px,1fr))}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
+  .card h2{margin:0 0 10px;font-size:15px}
+  .kpi{font-size:26px;font-weight:700;margin:4px 0}
+  .sub{color:var(--muted);font-size:12px}
+  .inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:8px}
+  label.filebox{display:block;border:1px dashed #94a3b8;border-radius:8px;padding:10px 12px;background:#f8fafc;cursor:pointer;font-size:12px}
+  label.filebox strong{display:block;color:var(--ink);margin-bottom:4px}
+  input[type=file]{width:100%;font-size:11px}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-weight:600;background:#f8fafc}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600}
+  .p-brand{background:#e0e7ff;color:#3730a3}
+  .p-nonbrand{background:#dcfce7;color:#166534}
+  .p-up{background:#dcfce7;color:#166534}
+  .p-down{background:#fee2e2;color:#991b1b}
+  .bar-row{display:grid;grid-template-columns:130px 1fr 70px;gap:10px;align-items:center;margin:7px 0;font-size:12.5px}
+  .bar-track{height:10px;background:#e2e8f0;border-radius:999px;overflow:hidden}
+  .bar-fill{height:100%;background:var(--accent)}
+  .rec{border-left:3px solid var(--accent);padding:8px 12px;margin:8px 0;background:#f8fafc;border-radius:0 6px 6px 0;font-size:13px}
+  svg.trend{width:100%;height:170px;display:block}
+</style>
+</head>
+<body>
+<header>
+  <h1>Search Performance Monitoring Dashboard — www.preet-baxi.com</h1>
+  <p>100% local client-side Google Search Console CSV analyzer. No data leaves your browser and no synthetic metrics are generated.</p>
+</header>
+<main>
+  <div class="notice">
+    <strong>Data Integrity Notice:</strong> Export your genuine CSV files from Google Search Console (<em>Performance → Search results → Export → CSV</em>) and load them below. Unloaded fields display <code>Awaiting CSV</code> rather than assuming zero traffic.
+  </div>
+
+  <section class="card" style="margin-bottom:16px">
+    <h2>1. Import Google Search Console CSV Exports (Local Only)</h2>
+    <div class="inputs">
+      <label class="filebox"><strong>Current Queries.csv (Required)</strong><input type="file" id="fQueries" accept=".csv"></label>
+      <label class="filebox"><strong>Current Pages.csv</strong><input type="file" id="fPages" accept=".csv"></label>
+      <label class="filebox"><strong>Dates.csv (Weekly/Monthly Trend)</strong><input type="file" id="fDates" accept=".csv"></label>
+      <label class="filebox"><strong>Image Search Queries.csv (Optional)</strong><input type="file" id="fImages" accept=".csv"></label>
+      <label class="filebox"><strong>Prior-Period Queries.csv (For Diff)</strong><input type="file" id="fPrevQueries" accept=".csv"></label>
+    </div>
+  </section>
+
+  <section class="grid g-4" id="kpis" style="margin-bottom:16px">
+    <div class="card"><div class="sub">Organic Impressions</div><div class="kpi" id="kImp">Awaiting CSV</div><div class="sub" id="kImpSub">Load Queries.csv</div></div>
+    <div class="card"><div class="sub">Organic Clicks</div><div class="kpi" id="kClk">Awaiting CSV</div><div class="sub" id="kClkSub">Average CTR: —</div></div>
+    <div class="card"><div class="sub">Average Position</div><div class="kpi" id="kPos">Awaiting CSV</div><div class="sub" id="kSplit">Branded vs Non-Branded: —</div></div>
+    <div class="card"><div class="sub">Pages &amp; Google Images</div><div class="kpi" id="kPages">Awaiting CSV</div><div class="sub" id="kImgSub">Images CSV not loaded</div></div>
+  </section>
+
+  <section class="grid g-2" style="margin-bottom:16px">
+    <div class="card">
+      <h2>2. Position Distribution (Queries)</h2>
+      <div id="posBuckets"><p class="sub">Awaiting Queries.csv import.</p></div>
+    </div>
+    <div class="card">
+      <h2>3. Research Topic Cluster Visibility (Non-Branded)</h2>
+      <div id="clusters"><p class="sub">Awaiting Queries.csv import.</p></div>
+    </div>
+  </section>
+
+  <section class="grid g-2" style="margin-bottom:16px">
+    <div class="card">
+      <h2>4. Trend Over Time (Dates.csv)</h2>
+      <div id="trendBox"><p class="sub">Load Dates.csv to render daily/weekly impression &amp; click trajectories.</p></div>
+    </div>
+    <div class="card">
+      <h2>5. Automated Data-Driven Recommendations</h2>
+      <div id="recs"><p class="sub">Recommendations are generated strictly from loaded Search Console data.</p></div>
+    </div>
+  </section>
+
+  <section class="card" style="margin-bottom:16px">
+    <h2>6. Individual Research Page Performance (Pages.csv)</h2>
+    <div id="pagesTable"><p class="sub">Load Pages.csv to inspect clicks, impressions, CTR, and position by canonical page.</p></div>
+  </section>
+
+  <section class="grid g-2">
+    <div class="card">
+      <h2>7. Top Non-Branded &amp; Branded Queries</h2>
+      <div id="queriesTable"><p class="sub">Load Queries.csv to classify branded vs. non-branded queries.</p></div>
+    </div>
+    <div class="card">
+      <h2>8. Improving, Declining &amp; New Research Queries</h2>
+      <div id="diffTable"><p class="sub">Load both Current Queries.csv and Prior-Period Queries.csv to compare periods.</p></div>
+    </div>
+  </section>
+</main>
+
+<script>
+const state = { queries: null, pages: null, dates: null, images: null, prevQueries: null };
+const BRAND_RE = /\b(preet|baxi|preet-baxi|agentsentry|metaaudit|cora|rai-gate|opsagent)\b/i;
+const CLUSTERS = [
+  { name: "AI Safety & Agent Security", re: /(agent security|agentic|runtime|mcp|tool[- ]?call|guardrail|red team|provenance|ai safety|prompt injection)/i },
+  { name: "LLM Evaluation & Judges", re: /(llm[- ]as[- ]a[- ]judge|llm judge|prediction[- ]powered|ppi\+\+|llm eval|judge bias|judge calibration|judge routing|cost[- ]efficient|human vs llm)/i },
+  { name: "Post-Training & Reliable AI", re: /(post[- ]training|reinforcement learning|grpo|dpo|sft|confidence calibration|decision[- ]making reliability|responsible ai|failure detection)/i },
+  { name: "AI Hiring & Résumé Security", re: /(r[eé]sum[eé]|hiring|recruit|gatekeeper|screening)/i },
+  { name: "LIGO & Gravitational Waves", re: /(ligo|gravitational|continuous[- ]wave|hardware injection|timing accuracy|detector calibration|f[- ]statistic|pulsar)/i },
+];
+
+function parseCSV(text) {
+  const rows = [];
+  let row = [], val = "", inQ = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i], n = text[i+1];
+    if (inQ) {
+      if (c === '"' && n === '"') { val += '"'; i++; }
+      else if (c === '"') inQ = false;
+      else val += c;
+    } else {
+      if (c === '"') inQ = true;
+      else if (c === ',') { row.push(val.trim()); val = ""; }
+      else if (c === '\n' || c === '\r') {
+        if (c === '\r' && n === '\n') i++;
+        row.push(val.trim());
+        if (row.some(x => x !== "")) rows.push(row);
+        row = []; val = "";
+      } else val += c;
+    }
+  }
+  if (val || row.length) { row.push(val.trim()); if (row.some(x => x !== "")) rows.push(row); }
+  if (!rows.length) return [];
+  const hdr = rows[0].map(h => h.toLowerCase());
+  return rows.slice(1).map(r => Object.fromEntries(hdr.map((h, i) => [h, r[i] ?? ""])));
+}
+
+const num = v => parseFloat(String(v || "0").replace(/[%,$\s]/g, "")) || 0;
+const getCol = (r, keys) => { for (const k of keys) for (const rk of Object.keys(r)) if (rk.includes(k)) return r[rk]; return ""; };
+
+function bindFile(id, key) {
+  document.getElementById(id).addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    state[key] = parseCSV(await file.text());
+    render();
+  });
+}
+bindFile("fQueries", "queries");
+bindFile("fPages", "pages");
+bindFile("fDates", "dates");
+bindFile("fImages", "images");
+bindFile("fPrevQueries", "prevQueries");
+
+function renderBars(el, items, maxVal) {
+  if (!items.length) { el.innerHTML = '<p class="sub">No matching rows.</p>'; return; }
+  el.innerHTML = items.map(it => {
+    const pct = maxVal > 0 ? Math.min(100, (it.val / maxVal) * 100) : 0;
+    return `<div class="bar-row"><span>${it.label}</span><div class="bar-track"><div class="bar-fill" style="width:${pct.toFixed(1)}%"></div></div><strong>${it.disp}</strong></div>`;
+  }).join("");
+}
+
+function render() {
+  const qs = state.queries;
+  if (qs && qs.length) {
+    const parsed = qs.map(r => ({
+      q: getCol(r, ["top queries", "query", "keyword"]),
+      clicks: num(getCol(r, ["clicks"])),
+      imp: num(getCol(r, ["impressions"])),
+      ctr: num(getCol(r, ["ctr"])),
+      pos: num(getCol(r, ["position"])),
+    })).filter(x => x.q);
+
+    const totImp = parsed.reduce((a, x) => a + x.imp, 0);
+    const totClk = parsed.reduce((a, x) => a + x.clicks, 0);
+    const avgCtr = totImp > 0 ? (totClk / totImp * 100) : 0;
+    const wPos = totImp > 0 ? parsed.reduce((a, x) => a + x.pos * x.imp, 0) / totImp : 0;
+    const branded = parsed.filter(x => BRAND_RE.test(x.q));
+    const nonBrand = parsed.filter(x => !BRAND_RE.test(x.q));
+    const nbImp = nonBrand.reduce((a, x) => a + x.imp, 0);
+
+    document.getElementById("kImp").textContent = totImp.toLocaleString();
+    document.getElementById("kImpSub").textContent = `${parsed.length} queries (${nonBrand.length} non-branded)`;
+    document.getElementById("kClk").textContent = totClk.toLocaleString();
+    document.getElementById("kClkSub").textContent = `Average CTR: ${avgCtr.toFixed(2)}%`;
+    document.getElementById("kPos").textContent = wPos.toFixed(1);
+    document.getElementById("kSplit").textContent = `Non-branded share: ${totImp ? (nbImp/totImp*100).toFixed(1) : 0}% of impressions`;
+
+    const buckets = [
+      { label: "Positions 1–3", val: parsed.filter(x => x.pos >= 1 && x.pos <= 3.5).length },
+      { label: "Positions 4–10", val: parsed.filter(x => x.pos > 3.5 && x.pos <= 10.5).length },
+      { label: "Positions 11–20", val: parsed.filter(x => x.pos > 10.5 && x.pos <= 20.5).length },
+      { label: "Positions 21–50", val: parsed.filter(x => x.pos > 20.5 && x.pos <= 50.5).length },
+      { label: "Positions 50+", val: parsed.filter(x => x.pos > 50.5).length },
+    ];
+    renderBars(document.getElementById("posBuckets"), buckets.map(b => ({...b, disp: `${b.val} q`})), Math.max(...buckets.map(b => b.val), 1));
+
+    const clData = CLUSTERS.map(c => {
+      const hits = nonBrand.filter(x => c.re.test(x.q));
+      return { label: c.name, val: hits.reduce((a, x) => a + x.imp, 0), disp: `${hits.reduce((a, x) => a + x.imp, 0)} imp` };
+    });
+    renderBars(document.getElementById("clusters"), clData, Math.max(...clData.map(x => x.val), 1));
+
+    const sorted = [...parsed].sort((a, b) => b.imp - a.imp).slice(0, 30);
+    document.getElementById("queriesTable").innerHTML = `<table><thead><tr><th>Query</th><th>Type</th><th>Clicks</th><th>Impr.</th><th>CTR</th><th>Pos</th></tr></thead><tbody>` +
+      sorted.map(x => `<tr><td>${x.q}</td><td><span class="pill ${BRAND_RE.test(x.q) ? 'p-brand' : 'p-nonbrand'}">${BRAND_RE.test(x.q) ? 'Branded' : 'Non-Branded'}</span></td><td>${x.clicks}</td><td>${x.imp}</td><td>${x.ctr.toFixed(1)}%</td><td>${x.pos.toFixed(1)}</td></tr>`).join("") + `</tbody></table>`;
+
+    // Recommendations strictly from observed data
+    const recs = [];
+    const striking = nonBrand.filter(x => x.pos >= 4 && x.pos <= 20 && x.imp >= 10).sort((a, b) => b.imp - a.imp).slice(0, 5);
+    if (striking.length) recs.push(`<strong>Striking-Distance Non-Branded Queries (Pos 4–20):</strong> ${striking.map(x => `<code>${x.q}</code> (pos ${x.pos.toFixed(1)}, ${x.imp} imp)`).join(", ")}. Expand technical Q&amp;A, methodology subsections, and internal anchor text on their target pages.`);
+    const lowCtr = parsed.filter(x => x.pos <= 10 && x.imp >= 25 && x.ctr < 2.5).sort((a, b) => b.imp - a.imp).slice(0, 5);
+    if (lowCtr.length) recs.push(`<strong>Top-10 Low-CTR Opportunities (&lt;2.5% CTR):</strong> ${lowCtr.map(x => `<code>${x.q}</code> (${x.ctr.toFixed(1)}% CTR, pos ${x.pos.toFixed(1)})`).join(", ")}. Refine meta descriptions and titles to match search intent.`);
+    const zeroClusters = clData.filter(c => c.val === 0).map(c => c.label);
+    if (zeroClusters.length) recs.push(`<strong>Unobserved Non-Branded Clusters in This Export:</strong> ${zeroClusters.join(", ")}. Prioritize releasing public technical guides (from <code>research-authority-expansion</code>) or open benchmarks targeting these areas.`);
+    if (!recs.length) recs.push("Observed query distribution is healthy; continue monthly snapshot tracking.");
+    document.getElementById("recs").innerHTML = recs.map(r => `<div class="rec">${r}</div>`).join("");
+
+    // Period diff
+    if (state.prevQueries && state.prevQueries.length) {
+      const prevMap = new Map(state.prevQueries.map(r => [getCol(r, ["top queries", "query", "keyword"]).toLowerCase(), {
+        imp: num(getCol(r, ["impressions"])), pos: num(getCol(r, ["position"]))
+      }]));
+      const diffs = parsed.map(x => {
+        const p = prevMap.get(x.q.toLowerCase());
+        return { ...x, isNew: !p, dPos: p ? (p.pos - x.pos) : 0, dImp: p ? (x.imp - p.imp) : x.imp };
+      });
+      const topMovers = diffs.filter(x => !x.isNew && Math.abs(x.dPos) >= 1).sort((a, b) => Math.abs(b.dPos) - Math.abs(a.dPos)).slice(0, 15);
+      const newNonBrand = diffs.filter(x => x.isNew && !BRAND_RE.test(x.q)).sort((a, b) => b.imp - a.imp).slice(0, 10);
+      document.getElementById("diffTable").innerHTML =
+        `<p class="sub"><strong>New non-branded queries discovered:</strong> ${newNonBrand.length ? newNonBrand.map(x => `<code>${x.q}</code> (${x.imp} imp)`).join(", ") : "None in this diff"}</p>` +
+        `<table><thead><tr><th>Query</th><th>Current Pos</th><th>ΔPos</th><th>ΔImpr</th></tr></thead><tbody>` +
+        topMovers.map(x => `<tr><td>${x.q}</td><td>${x.pos.toFixed(1)}</td><td><span class="pill ${x.dPos > 0 ? 'p-up' : 'p-down'}">${x.dPos > 0 ? '+' : ''}${x.dPos.toFixed(1)}</span></td><td>${x.dImp >= 0 ? '+' : ''}${x.dImp}</td></tr>`).join("") + `</tbody></table>`;
+    }
+  }
+
+  if (state.pages && state.pages.length) {
+    const ps = state.pages.map(r => ({
+      u: getCol(r, ["top pages", "page", "url"]),
+      clicks: num(getCol(r, ["clicks"])),
+      imp: num(getCol(r, ["impressions"])),
+      ctr: num(getCol(r, ["ctr"])),
+      pos: num(getCol(r, ["position"])),
+    })).filter(x => x.u).sort((a, b) => b.imp - a.imp);
+    document.getElementById("kPages").textContent = `${ps.length} active`;
+    document.getElementById("pagesTable").innerHTML = `<table><thead><tr><th>Page</th><th>Clicks</th><th>Impressions</th><th>CTR</th><th>Avg Pos</th></tr></thead><tbody>` +
+      ps.map(x => `<tr><td>${x.u.replace("https://www.preet-baxi.com", "") || "/"}</td><td>${x.clicks}</td><td>${x.imp}</td><td>${x.ctr.toFixed(1)}%</td><td>${x.pos.toFixed(1)}</td></tr>`).join("") + `</tbody></table>`;
+  }
+
+  if (state.images && state.images.length) {
+    const iImp = state.images.reduce((a, r) => a + num(getCol(r, ["impressions"])), 0);
+    const iClk = state.images.reduce((a, r) => a + num(getCol(r, ["clicks"])), 0);
+    document.getElementById("kImgSub").textContent = `Google Images: ${iClk} clicks / ${iImp} imp`;
+  }
+
+  if (state.dates && state.dates.length) {
+    const ds = state.dates.map(r => ({ d: getCol(r, ["date"]), imp: num(getCol(r, ["impressions"])), clk: num(getCol(r, ["clicks"])) })).filter(x => x.d).reverse();
+    const maxI = Math.max(...ds.map(x => x.imp), 1);
+    const w = 520, h = 150, pad = 16;
+    const pts = ds.map((x, i) => `${(pad + (i / Math.max(ds.length - 1, 1)) * (w - 2*pad)).toFixed(1)},${(h - pad - (x.imp / maxI) * (h - 2*pad)).toFixed(1)}`).join(" ");
+    document.getElementById("trendBox").innerHTML = `<svg class="trend" viewBox="0 0 ${w} ${h}"><polyline fill="none" stroke="#2563eb" stroke-width="2.5" points="${pts}"/></svg><p class="sub">${ds[0]?.d} → ${ds[ds.length-1]?.d} · Peak daily impressions: ${maxI}</p>`;
+  }
+}
+</script>
+</body>
+</html>

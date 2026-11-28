@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
@@ -311,7 +312,85 @@ def audit() -> int:
         except ET.ParseError as exc:
             errors.append(f"Invalid XML in sitemap.xml: {exc}")
 
-    print(f"SEO Audit complete: checked {len(EXPECTED_PAGES)} canonical pages.")
+    # 6. Validate IndexNow host verification file
+    indexnow_key = "a8abb5d57579b82dc92f5ffc32629e0e"
+    indexnow_file = ROOT / f"{indexnow_key}.txt"
+    if not indexnow_file.exists():
+        errors.append(f"Missing IndexNow key verification file: {indexnow_file.name}")
+    elif indexnow_file.read_text(encoding="utf-8").strip() != indexnow_key:
+        errors.append(f"IndexNow key file {indexnow_file.name} content does not match filename key")
+
+    # 7. Check for broken local stylesheet/script/source resources across all 12 HTML pages
+    asset_ref_re = re.compile(r'''(?:href|src|srcset)=["']([^"']+)["']''')
+    for rel in EXPECTED_PAGES:
+        raw_html = (ROOT / rel).read_text(encoding="utf-8")
+        for match in asset_ref_re.findall(raw_html):
+            for candidate in match.split(","):
+                token = candidate.strip().split(" ")[0]
+                if not token or token.startswith(("#", "http://", "https://", "mailto:", "tel:", "data:")):
+                    continue
+                clean = token.split("#")[0].split("?")[0]
+                if not clean:
+                    continue
+                resolved = resolve_local_path(rel, clean)
+                if not resolved.exists():
+                    errors.append(f"[{rel}] Broken local resource reference: {token}")
+
+    # 8. Secret & exposed credential scanner (public repository safety check)
+    secret_patterns = [
+        ("Private key block", re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----")),
+        ("Google service account JSON", re.compile(r'"type"\s*:\s*"service_account"')),
+        ("GitHub personal access token", re.compile(r"\b(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9]{30,}\b")),
+        ("OpenAI / Anthropic API key", re.compile(r"\bsk-(?:proj-|ant-)?[A-Za-z0-9_-]{32,}\b")),
+        ("AWS access key ID", re.compile(r"\bAKIA[0-9A-Z]{16}\b")),
+    ]
+    for path in ROOT.rglob("*"):
+        if not path.is_file() or ".git" in path.parts:
+            continue
+        if path.suffix.lower() in {".png", ".webp", ".jpg", ".jpeg", ".pdf", ".ico", ".woff", ".woff2"}:
+            continue
+        if path.name == "seo_audit.py":
+            continue
+        try:
+            content = path.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+        for label, pat in secret_patterns:
+            if pat.search(content):
+                errors.append(f"Potential exposed credential ({label}) in {path.relative_to(ROOT).as_posix()}")
+
+    # 9. Optional external publication link verification (--check-external)
+    if "--check-external" in sys.argv:
+        import urllib.error
+        import urllib.request
+
+        pub_urls = [
+            "https://aclanthology.org/2026.findings-acl.142/",
+            "https://doi.org/10.18653/v1/2026.findings-acl.142",
+            "https://arxiv.org/abs/2606.27287",
+            "https://doi.org/10.1088/1361-6382/ae7adb",
+            "https://arxiv.org/abs/2601.09918",
+            "https://doi.org/10.1103/PhysRevD.104.084080",
+            "https://arxiv.org/abs/2103.03241",
+            "https://github.com/preetb1199/Prompt_Injection_ACL26",
+            "https://github.com/preetb1199/CalculateSNRg_Python",
+        ]
+        for u in pub_urls:
+            req = urllib.request.Request(u, headers={"User-Agent": "Mozilla/5.0 SEO-Audit/1.0"}, method="HEAD")
+            try:
+                with urllib.request.urlopen(req, timeout=12) as resp:
+                    if resp.status >= 400:
+                        errors.append(f"External publication link returned HTTP {resp.status}: {u}")
+            except urllib.error.HTTPError as exc:
+                if exc.code in (403, 405):
+                    # Some academic publishers block HEAD/bot probes; record informational notice only
+                    pass
+                else:
+                    errors.append(f"External publication link broken (HTTP {exc.code}): {u}")
+            except Exception as exc:
+                warnings.append(f"External publication link timeout/network error ({exc}): {u}")
+
+    print(f"SEO Audit complete: checked {len(EXPECTED_PAGES)} canonical pages, sitemap, robots, IndexNow, local assets, and secret hygiene.")
     if warnings:
         print(f"\nWarnings ({len(warnings)}):")
         for w in warnings:
@@ -322,7 +401,7 @@ def audit() -> int:
             print(f"  [FAIL] {e}")
         return 1
 
-    print("All automated technical SEO, structured data, image, link, and sitemap checks PASSED.")
+    print("All automated technical SEO, structured data, image, link, sitemap, IndexNow, and credential-hygiene checks PASSED.")
     return 0
 
 

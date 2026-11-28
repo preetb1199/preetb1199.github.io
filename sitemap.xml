@@ -61,13 +61,25 @@
       <image:title>MetaAudit human-label budget savings using two-judge PPI++</image:title>
     </image:image>
     <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/MetaAudit_PPI_Correction_Light.svg</image:loc>
+      <image:title>MetaAudit PPI++ residual correction combining LLM judge predictions with human audit</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/MetaAudit_Reasoning_Light.svg</image:loc>
+      <image:title>MetaAudit label-saving multipliers across subjective and verifiable reasoning benchmarks</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/MetaAudit_Stress_Light.svg</image:loc>
+      <image:title>MetaAudit prompt-injection evasion against LLM judges with and without spotlighting</image:title>
+    </image:image>
+    <image:image>
       <image:loc>https://www.preet-baxi.com/assets/diagrams/MetaAudit_Certification_Light.svg</image:loc>
       <image:title>MetaAudit Edgeworth-corrected dataset certification false-accept comparison</image:title>
     </image:image>
   </url>
   <url>
     <loc>https://www.preet-baxi.com/research/cora.html</loc>
-    <lastmod>2026-11-27</lastmod>
+    <lastmod>2026-11-28</lastmod>
     <image:image>
       <image:loc>https://www.preet-baxi.com/assets/diagrams/CORA_Social_Preview.png</image:loc>
       <image:title>CORA calibration versus discrimination under input corruption in LLM decision agents</image:title>
@@ -77,12 +89,28 @@
       <image:title>CORA evaluation pipeline for LLM decision agents</image:title>
     </image:image>
     <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/CORA_Split_Light.svg</image:loc>
+      <image:title>CORA seen versus held-out input corruption transfer split</image:title>
+    </image:image>
+    <image:image>
       <image:loc>https://www.preet-baxi.com/assets/diagrams/CORA_Families_Light.svg</image:loc>
       <image:title>CORA AUROC comparison across seven input corruption families</image:title>
     </image:image>
     <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/CORA_Staleness_Light.svg</image:loc>
+      <image:title>CORA silent staleness diagram showing twenty-day-old evidence failing a five-day horizon</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/CORA_Discrimination_Light.svg</image:loc>
+      <image:title>CORA comparison of held-out AUROC decline versus pooled ECE calibration</image:title>
+    </image:image>
+    <image:image>
       <image:loc>https://www.preet-baxi.com/assets/diagrams/CORA_Detectors_Light.svg</image:loc>
       <image:title>CORA out-of-distribution failure detector comparison</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.preet-baxi.com/assets/diagrams/CORA_Policy_Light.svg</image:loc>
+      <image:title>CORA simulated downstream policy impact of out-of-distribution detector gating</image:title>
     </image:image>
   </url>
   <url>

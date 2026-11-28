@@ -1,11 +1,10 @@
-name: SEO Regression Audit
+name: SEO & Academic Discoverability Regression Audit
 
 on:
   push:
-    branches: [main, seo-optimization]
+    branches: [main, seo-optimization, research-authority-expansion]
   pull_request:
     branches: [main]
-  workflow_dispatch:
 
 jobs:
   seo-audit:
@@ -19,5 +18,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Run automated technical SEO audit
-        run: python3 scripts/seo_audit.py
+      - name: Run technical SEO, structured data, image, IndexNow & secret-hygiene audit
+        run: python3 scripts/seo_audit.py --check-external
+
+      - name: Verify IndexNow submission helper syntax
+        run: python3 scripts/indexnow_submit.py --dry-run --urls https://www.preet-baxi.com/

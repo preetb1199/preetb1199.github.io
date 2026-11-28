@@ -27,9 +27,9 @@ Source repository for **[www.preet-baxi.com](https://www.preet-baxi.com/)**, the
 
 Full publication list, abstracts, and BibTeX citations are available at **[preet-baxi.com/publications.html](https://www.preet-baxi.com/publications.html)**.
 
-- **Findings of ACL 2026:** P. Baxi, J. Xu, J. Y. Jiang, S. Jasin, *"Prompt Injection Attacks in Automated Résumé Screening with Large Language Models,"* Findings of the Association for Computational Linguistics: ACL 2026, pp. 2942–2953. [ACL Anthology](https://aclanthology.org/2026.findings-acl.142/) · [DOI](https://doi.org/10.18653/v1/2026.findings-acl.142) · [arXiv:2606.27287](https://arxiv.org/abs/2606.27287) · [Code](https://github.com/preetb1199/Prompt_Injection_ACL26)
-- **Classical and Quantum Gravity (2026):** P. Baxi, J. Leviton, E. Morag, M. Pitkin, K. Riles, *"Monitoring of continuous-wave hardware injections during LIGO's fourth observing run,"* Classical and Quantum Gravity 43(13), 135019. [DOI](https://doi.org/10.1088/1361-6382/ae7adb) · [arXiv:2601.09918](https://arxiv.org/abs/2601.09918)
-- **Physical Review D (2021):** Divyajyoti, P. Baxi, C. K. Mishra, K. G. Arun, *"Detectability of gravitational higher modes in the third-generation detectors,"* Physical Review D 104(8), 084080. [DOI](https://doi.org/10.1103/PhysRevD.104.084080) · [arXiv:2103.03241](https://arxiv.org/abs/2103.03241)
+- **Findings of ACL 2026:** P. Baxi, J. Xu, J. Y. Jiang, S. Jasin, *"Prompt Injection in Automated Résumé Screening with Large Language Models: Single and Multi-Injection Settings,"* Findings of the Association for Computational Linguistics: ACL 2026, pp. 2942–2953. [ACL Anthology](https://aclanthology.org/2026.findings-acl.142/) · [DOI](https://doi.org/10.18653/v1/2026.findings-acl.142) · [arXiv:2606.27287](https://arxiv.org/abs/2606.27287) · [Code](https://github.com/preetb1199/Prompt_Injection_ACL26)
+- **Classical and Quantum Gravity (2026):** P. Baxi, J. Leviton, E. Morag, M. Pitkin, K. Riles, *"Monitoring of continuous-wave hardware injections in LIGO interferometers during the O4 observing run,"* Classical and Quantum Gravity 43(13), 135019. [DOI](https://doi.org/10.1088/1361-6382/ae7adb) · [arXiv:2601.09918](https://arxiv.org/abs/2601.09918)
+- **Physical Review D (2021):** Divyajyoti, P. Baxi, C. K. Mishra, K. G. Arun, *"Detectability of gravitational higher order modes in the third-generation era,"* Physical Review D 104(8), 084080. [DOI](https://doi.org/10.1103/PhysRevD.104.084080) · [arXiv:2103.03241](https://arxiv.org/abs/2103.03241)
 
 ---
 

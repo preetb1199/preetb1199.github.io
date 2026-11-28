@@ -79,9 +79,9 @@ I research **AI safety**, **runtime security for agentic AI systems**, **indirec
 
 ### Selected Publications
 
-- **Findings of ACL 2026:** P. Baxi, J. Xu, J. Y. Jiang, S. Jasin — *Prompt Injection Attacks in Automated Résumé Screening with Large Language Models* ([ACL Anthology](https://aclanthology.org/2026.findings-acl.142/) · [DOI](https://doi.org/10.18653/v1/2026.findings-acl.142) · [arXiv:2606.27287](https://arxiv.org/abs/2606.27287))
-- **Classical and Quantum Gravity (2026):** P. Baxi, J. Leviton, E. Morag, M. Pitkin, K. Riles — *Monitoring of continuous-wave hardware injections during LIGO's fourth observing run* ([DOI](https://doi.org/10.1088/1361-6382/ae7adb) · [arXiv:2601.09918](https://arxiv.org/abs/2601.09918))
-- **Physical Review D (2021):** Divyajyoti, P. Baxi, C. K. Mishra, K. G. Arun — *Detectability of gravitational higher modes in the third-generation detectors* ([DOI](https://doi.org/10.1103/PhysRevD.104.084080) · [arXiv:2103.03241](https://arxiv.org/abs/2103.03241))
+- **Findings of ACL 2026:** P. Baxi, J. Xu, J. Y. Jiang, S. Jasin — *Prompt Injection in Automated Résumé Screening with Large Language Models: Single and Multi-Injection Settings* ([ACL Anthology](https://aclanthology.org/2026.findings-acl.142/) · [DOI](https://doi.org/10.18653/v1/2026.findings-acl.142) · [arXiv:2606.27287](https://arxiv.org/abs/2606.27287))
+- **Classical and Quantum Gravity (2026):** P. Baxi, J. Leviton, E. Morag, M. Pitkin, K. Riles — *Monitoring of continuous-wave hardware injections in LIGO interferometers during the O4 observing run* ([DOI](https://doi.org/10.1088/1361-6382/ae7adb) · [arXiv:2601.09918](https://arxiv.org/abs/2601.09918))
+- **Physical Review D (2021):** Divyajyoti, P. Baxi, C. K. Mishra, K. G. Arun — *Detectability of gravitational higher order modes in the third-generation era* ([DOI](https://doi.org/10.1103/PhysRevD.104.084080) · [arXiv:2103.03241](https://arxiv.org/abs/2103.03241))
 ```
 
 ---
@@ -91,7 +91,7 @@ I research **AI safety**, **runtime security for agentic AI systems**, **indirec
 ### A. Repository Settings ("About" gear icon on GitHub)
 - **Description:**
   ```text
-  Official code and statistical analysis pipeline for Findings of ACL 2026: Prompt Injection Attacks in Automated Résumé Screening with Large Language Models
+  Official code and statistical analysis pipeline for Findings of ACL 2026: Prompt Injection in Automated Résumé Screening with Large Language Models: Single and Multi-Injection Settings
   ```
 - **Website (Homepage):**
   ```text
@@ -106,7 +106,7 @@ I research **AI safety**, **runtime security for agentic AI systems**, **indirec
 ```yaml
 cff-version: 1.2.0
 message: "If you use this code or analysis pipeline in your research, please cite the Findings of ACL 2026 paper below."
-title: "Prompt Injection Attacks in Automated Résumé Screening with Large Language Models"
+title: "Prompt Injection in Automated Résumé Screening with Large Language Models: Single and Multi-Injection Settings"
 type: software
 authors:
   - family-names: "Baxi"
@@ -130,7 +130,7 @@ keywords:
   - resume-screening
 preferred-citation:
   type: conference-paper
-  title: "Prompt Injection Attacks in Automated Résumé Screening with Large Language Models"
+  title: "Prompt Injection in Automated Résumé Screening with Large Language Models: Single and Multi-Injection Settings"
   authors:
     - family-names: "Baxi"
       given-names: "Preet"
@@ -151,7 +151,7 @@ preferred-citation:
 
 ### C. Copy-Paste Upgraded `README.md` (Preserves 100% of existing code docs, removes draft placeholders, adds verified ACL 2026 citation & website links)
 ```markdown
-# Prompt Injection Attacks in Automated Résumé Screening with Large Language Models (Findings of ACL 2026)
+# Prompt Injection in Automated Résumé Screening with Large Language Models: Single and Multi-Injection Settings (Findings of ACL 2026)
 
 [![ACL Anthology](https://img.shields.io/badge/ACL%20Anthology-2026.findings--acl.142-blue)](https://aclanthology.org/2026.findings-acl.142/)
 [![arXiv](https://img.shields.io/badge/arXiv-2606.27287-b31b1b.svg)](https://arxiv.org/abs/2606.27287)
@@ -160,7 +160,7 @@ preferred-citation:
 
 Official experiment, statistical analysis, and figure-generation code for our **Findings of ACL 2026** paper:
 
-> **Prompt Injection Attacks in Automated Résumé Screening with Large Language Models**  
+> **Prompt Injection in Automated Résumé Screening with Large Language Models: Single and Multi-Injection Settings**  
 > [Preet Baxi](https://www.preet-baxi.com/), Jiannan Xu, Jane Yi Jiang, Stefanus Jasin  
 > *Findings of the Association for Computational Linguistics: ACL 2026*, pp. 2942–2953 (San Diego, July 2026)  
 > **Links:** [Project Page](https://www.preet-baxi.com/research/prompt-injection-screening.html) · [ACL Anthology](https://aclanthology.org/2026.findings-acl.142/) · [arXiv:2606.27287](https://arxiv.org/abs/2606.27287) · [All Publications](https://www.preet-baxi.com/publications.html)
@@ -391,7 +391,7 @@ If you use this codebase or findings in your research, please cite:
 
 ```bibtex
 @inproceedings{baxi-etal-2026-prompt,
-  title     = {Prompt Injection Attacks in Automated R{\'e}sum{\'e} Screening with Large Language Models},
+  title     = {Prompt Injection in Automated R{\'e}sum{\'e} Screening with Large Language Models: Single and Multi-Injection Settings},
   author    = {Baxi, Preet and Xu, Jiannan and Jiang, Jane Yi and Jasin, Stefanus},
   booktitle = {Findings of the Association for Computational Linguistics: ACL 2026},
   month     = jul,
@@ -475,8 +475,8 @@ Key configuration flags at the top of `PY_Calculate_SNRG.py`:
 ## Related Gravitational-Wave Research & Publications
 
 - **[LIGO O4 Continuous-Wave Hardware Injection Monitoring](https://www.preet-baxi.com/research/ligo-monitoring.html)** — Research overview on `preet-baxi.com`
-- **Classical and Quantum Gravity (2026):** P. Baxi, J. Leviton, E. Morag, M. Pitkin, K. Riles, *"Monitoring of continuous-wave hardware injections during LIGO's fourth observing run,"* CQG 43(13), 135019. [DOI](https://doi.org/10.1088/1361-6382/ae7adb) · [arXiv:2601.09918](https://arxiv.org/abs/2601.09918)
-- **Physical Review D (2021):** Divyajyoti, P. Baxi, C. K. Mishra, K. G. Arun, *"Detectability of gravitational higher modes in the third-generation detectors,"* PRD 104(8), 084080. [DOI](https://doi.org/10.1103/PhysRevD.104.084080) · [arXiv:2103.03241](https://arxiv.org/abs/2103.03241)
+- **Classical and Quantum Gravity (2026):** P. Baxi, J. Leviton, E. Morag, M. Pitkin, K. Riles, *"Monitoring of continuous-wave hardware injections in LIGO interferometers during the O4 observing run,"* CQG 43(13), 135019. [DOI](https://doi.org/10.1088/1361-6382/ae7adb) · [arXiv:2601.09918](https://arxiv.org/abs/2601.09918)
+- **Physical Review D (2021):** Divyajyoti, P. Baxi, C. K. Mishra, K. G. Arun, *"Detectability of gravitational higher order modes in the third-generation era,"* PRD 104(8), 084080. [DOI](https://doi.org/10.1103/PhysRevD.104.084080) · [arXiv:2103.03241](https://arxiv.org/abs/2103.03241)
 - **Full Publications & Website:** [https://www.preet-baxi.com/publications.html](https://www.preet-baxi.com/publications.html)
 ```
 
@@ -509,7 +509,7 @@ gh api -X PATCH user \
 
 # 2. Update Prompt_Injection_ACL26 metadata & topics
 gh api -X PATCH repos/preetb1199/Prompt_Injection_ACL26 \
-  -f description="Official code and statistical analysis pipeline for Findings of ACL 2026: Prompt Injection Attacks in Automated Résumé Screening with Large Language Models" \
+  -f description="Official code and statistical analysis pipeline for Findings of ACL 2026: Prompt Injection in Automated Résumé Screening with Large Language Models: Single and Multi-Injection Settings" \
   -f homepage="https://www.preet-baxi.com/research/prompt-injection-screening.html"
 
 gh api -X PUT repos/preetb1199/Prompt_Injection_ACL26/topics \

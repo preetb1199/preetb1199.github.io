@@ -1,0 +1,12 @@
+# Local private analytics, GSC exports, and credentials (never commit)
+*.secret.json
+*service-account*.json
+*credentials*.json
+gsc-private-exports/
+seo-reports/gsc-snapshots/
+seo-reports/final-execution/SEARCH_MONITORING_DASHBOARD/local-data/
+.env
+.env.*
+__pycache__/
+*.pyc
+.DS_Store
