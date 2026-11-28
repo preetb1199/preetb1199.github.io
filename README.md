@@ -1,31 +1,58 @@
-# Preet Baxi — Final AI + LIGO Portfolio
+# Preet Baxi — Academic Research Website
 
-## What is included
+Source repository for **[www.preet-baxi.com](https://www.preet-baxi.com/)**, the personal academic website of **Preet Baxi**, PhD Candidate in Physics and Scientific Computing at the **University of Michigan, Ann Arbor**.
 
-- Homepage: portrait, multicolor italic headline, research highlights, warm About section, publications preview, and Contact section
-- Centered navigation: Research, Publications, About (homepage anchor), Contact (homepage anchor), View CV
-- Research directory with AI and LIGO categories and individual project pages
-- Light and dark modes, interactive research explainers, full diagrams, and PDF CV
+**Research Focus:** AI Safety · Agentic AI & Runtime Security · Indirect Prompt Injection · Statistically Valid LLM Evaluation · Gravitational-Wave Physics (LIGO Scientific Collaboration)
 
-There are intentionally **no separate About or Contact pages**.
+---
 
-## Publish to GitHub Pages
+## Featured Research Pages
 
-1. Create a public repository named `preetb1199.github.io`.
-2. Upload the **contents** of this folder to the repository root, not a ZIP file.
-3. In GitHub: Settings → Pages → Deploy from a branch → `main` → `/(root)`.
-4. After deployment, visit `https://preetb1199.github.io/`.
+### AI Safety, Agent Security & LLM Evaluation
+- **[AgentSentry](https://www.preet-baxi.com/research/agentsentry.html)** — Runtime security for tool-using AI agents with fail-closed policy enforcement and provenance taint tracking
+- **[MetaAudit](https://www.preet-baxi.com/research/metaaudit.html)** — Auditing LLM-as-a-judge reliability with human-grounded statistical inference (PPI++)
+- **[CORA](https://www.preet-baxi.com/research/cora.html)** — Confidence calibration, ranking discrimination, and silent failure detection under input corruption in LLM decision agents
+- **[Prompt Injection in LLM Résumé Screening (ACL 2026)](https://www.preet-baxi.com/research/prompt-injection-screening.html)** — Empirical study of indirect prompt injection in automated hiring pipelines ([Code: `Prompt_Injection_ACL26`](https://github.com/preetb1199/Prompt_Injection_ACL26))
+- **[Gaming the Gatekeeper](https://www.preet-baxi.com/research/gaming-the-gatekeeper.html)** — Adaptive attacks and stress testing for LLM-based résumé screeners
+- **[RAI-Gate](https://www.preet-baxi.com/research/rai-gate.html)** — Safety post-training (SFT/DPO) and quantitative release gating for responsible AI deployment
+- **[OpsAgent-RL](https://www.preet-baxi.com/research/opsagent-rl.html)** — Verifiable-reward reinforcement learning for long-horizon tool-using operations agents
+- **[Cost-Aware Routing of LLM Judges](https://www.preet-baxi.com/research/cost-aware-llm-judges.html)** — Sequential sampling and two-tier LLM verification under evaluation budgets
 
-You can open `index.html` locally for a quick static preview. The separate single-file interactive preview also bundled in the ChatGPT response requires no deployment.
+### Gravitational-Wave Physics & Scientific Computing
+- **[LIGO O4 Continuous-Wave Hardware Injection Monitoring](https://www.preet-baxi.com/research/ligo-monitoring.html)** — Monitoring continuous-wave hardware injections during LIGO Observing Run 4 ([Related code: `CalculateSNRg_Python`](https://github.com/preetb1199/CalculateSNRg_Python))
 
-## Research-integrity checklist
+---
 
-Please reconcile figure labels and research statistics with your latest manuscript and CV before publication, especially MetaAudit evaluation counts, and distinguish ongoing work from completed results. Interactive cases are conceptual explainers, not live model executions.
+## Selected Peer-Reviewed Publications
 
+Full publication list, abstracts, and BibTeX citations are available at **[preet-baxi.com/publications.html](https://www.preet-baxi.com/publications.html)**.
 
-### V6 visual and homepage update
-- Home hero now includes a nameplate with focused research topics.
-- Portrait has been scaled down slightly.
-- Headline punctuation is now `fail, and` rather than an em dash.
-- Dark theme now uses an almost-black charcoal/navy foundation.
-- About remains on the homepage and includes three personal interests. No personal photos, dated updates, or experiences were invented; add genuine photos later if desired.
+- **Findings of ACL 2026:** P. Baxi, J. Xu, J. Y. Jiang, S. Jasin, *"Prompt Injection Attacks in Automated Résumé Screening with Large Language Models,"* Findings of the Association for Computational Linguistics: ACL 2026, pp. 2942–2953. [ACL Anthology](https://aclanthology.org/2026.findings-acl.142/) · [DOI](https://doi.org/10.18653/v1/2026.findings-acl.142) · [arXiv:2606.27287](https://arxiv.org/abs/2606.27287) · [Code](https://github.com/preetb1199/Prompt_Injection_ACL26)
+- **Classical and Quantum Gravity (2026):** P. Baxi, J. Leviton, E. Morag, M. Pitkin, K. Riles, *"Monitoring of continuous-wave hardware injections during LIGO's fourth observing run,"* Classical and Quantum Gravity 43(13), 135019. [DOI](https://doi.org/10.1088/1361-6382/ae7adb) · [arXiv:2601.09918](https://arxiv.org/abs/2601.09918)
+- **Physical Review D (2021):** Divyajyoti, P. Baxi, C. K. Mishra, K. G. Arun, *"Detectability of gravitational higher modes in the third-generation detectors,"* Physical Review D 104(8), 084080. [DOI](https://doi.org/10.1103/PhysRevD.104.084080) · [arXiv:2103.03241](https://arxiv.org/abs/2103.03241)
+
+---
+
+## Repository Structure & Automated Checks
+
+- `index.html`, `publications.html`, `research/` — Static HTML pages deployed via GitHub Pages with custom domain `www.preet-baxi.com`
+- `assets/` — Stylesheets, interactive explainer scripts, responsive WebP/PNG figures, and CV
+- `scripts/seo_audit.py` — Automated technical SEO, structured data, image, canonical, and link regression checker (run in CI via `.github/workflows/seo-check.yml`)
+- `scripts/gsc_monitor.py` — Read-only Google Search Console Search Analytics exporter
+
+To run the local verification check:
+
+```bash
+python3 scripts/seo_audit.py
+```
+
+---
+
+## Academic Profiles
+
+- **Website:** https://www.preet-baxi.com/
+- **Google Scholar:** https://scholar.google.com/citations?user=dpuZ0_IAAAAJ
+- **ACL Anthology:** https://aclanthology.org/people/preet-baxi/
+- **LinkedIn:** https://www.linkedin.com/in/preet-baxi/
+- **University of Michigan (LSA Physics):** https://lsa.umich.edu/physics/people/graduate-students/preetb.html
+- **University of Michigan (MICDE):** https://micde.umich.edu/member/preet-baxi/
